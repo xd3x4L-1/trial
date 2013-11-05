@@ -1,0 +1,28 @@
+html {background:#FFFFFF;}
+html{overflow-y:scroll;}
+
+body{margin-top: -30mm; margin-bottom: 0px; 
+margin-left: 30mm; margin-right:30mm;}
+body{padding:10mm; background: #FFFFFF;}
+body{min-width:280mm;transform: scale(0.87,0.87);
+-ms-transform: scale(0.87,0.87); /* IE 9 */
+-webkit-transform: scale(0.87,0.87); /* Safari and Chrome */}
+
+body{  font-family: Georgia, serif;}
+body{color: #333;}
+
+
+header,footer,nav,article,section,aside,figure,figcaption{display:block;}
+  
+
+a{color:#77B5FE;  font-size:1em; outline:0;  }
+a:link  { }
+a:visited  { }
+a:hover  { text-decoration:none; color:#333; }
+a:active  { }
+
+h1{ font-size:1.4em;color:#333;}
+#main { color:#333;font-size:1em;}
+
+
+p{color:#333;}
