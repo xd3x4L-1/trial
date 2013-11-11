@@ -10,9 +10,13 @@
  */
 function get_debug() {
   $Origo = Origin::Instance();
-  $html = "<h2>Debuginformation</h2><hr><p>The content of the config array:</p><pre>" . htmlentities(print_r($Origo->config, true)) . "</pre>";
-  $html .= "<hr><p>The content of the data array:</p><pre>" . htmlentities(print_r($Origo->data, true)) . "</pre>";
-  $html .= "<hr><p>The content of the request array:</p><pre>" . htmlentities(print_r($Origo->request, true)) . "</pre>";
+  
+  $html = null;
+  if(isset($Origo->config['debug']['display-trial'])) {
+    $html = "<hr><h3>Debuginformation</h3><p>The content of Origin:</p><pre>" . htmlent(print_r($Origo, true)) . "</pre>";
+  } 
+ 
+  
   return $html;
 }
 
