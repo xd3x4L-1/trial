@@ -93,8 +93,8 @@ EOD;
 	
 /*här byggs en lista med denna kontrollers metoder upp.
 */		
-	
-    $menu = array('developer', 'developer/index', 'developer/links','developer/display-object');  
+	$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links', 'developer/display-object', 'guestbook');
+    
     $html = null;
 	
     foreach($menu as $val) {

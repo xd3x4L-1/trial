@@ -106,12 +106,23 @@ att använda för kontroll av funktion.
 /*om istället  första tecknet i $query är ett frågetecken ställs $query om till $_GET['q'].
 */
 
+ $pos = strcspn($query, '?');
+    if($pos) {
+      $query = substr($query, 0, $pos);
+    }
+
+
+
+
+
+
+
+
 
     // Check if this looks like a querystring approach link
     if(substr($query, 0, 1) === '?' && isset($_GET['q'])) {
       $query = trim($_GET['q']);
     }
-
 
     $splits = explode('/', $query);
     

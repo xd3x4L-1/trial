@@ -31,6 +31,19 @@ ramverkets fortsatta exekvering.
 
     $Origo = &$this;
     require(LYDIA_SITE_PATH.'/config.php');
+	
+	session_name($this->config['session_name']);
+    session_start();
+    
+    // Set default date/time-zone
+    date_default_timezone_set($this->config['timezone']);
+	
+	
+	
+	
+	
+	
+	
   }
   
   

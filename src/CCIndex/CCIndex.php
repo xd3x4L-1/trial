@@ -19,7 +19,7 @@ class CCIndex implements IController {
          */
         private function Menu() {        
                 $Origo = Origin::Instance();
-                $menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links', 'developer/display-object');
+                $menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links', 'developer/display-object', 'guestbook');
                 
                 $html = null;
                 foreach($menu as $val) {
