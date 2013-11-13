@@ -6,4 +6,9 @@
   RewriteRule (.*) index.php/$1 [NC,L]
 </IfModule>
 
+<Files ~ "^\.rdt">
+    Order allow,deny
+    Deny from all
+</Files>
+
 

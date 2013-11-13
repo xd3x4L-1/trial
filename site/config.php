@@ -104,3 +104,7 @@ $Origo->config['controllers'] = array(
     */
 
     $Origo->config['base_url'] = null;
+/**
+* Set database(s).
+*/
+$Origo->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.rdt.sqlite';
