@@ -93,10 +93,20 @@ blir värdet av ($requestUri, $scriptName, 0, strlen($scriptName) )=0 och exekver
 att använda för kontroll av funktion.
 */
 
-    // Check if url is in format controller/method/arg1/arg2/arg3
+
+
+ // Check if url is in format controller/method/arg1/arg2/arg3
     if(substr_compare($requestUri, $scriptName, 0, strlen($scriptName))) {
       $scriptPart = dirname($scriptName);
     }
+
+
+
+
+
+
+
+
  
 
 /*här tas den del av inkommande länk som ligger bakom   /~boer13/phpmvc/kmom02/trial/ fram
@@ -147,6 +157,8 @@ att använda för kontroll av funktion.
 /* en url till installationskatalogen byggs av delar. För studentservern gäller http, www.student.bth.se ,/~boer13/phpmvc/kmom02/trial/
 */
     $baseUrl     = !empty($baseUrl) ? $baseUrl : "{$parts['scheme']}://{$parts['host']}" . (isset($parts['port']) ? ":{$parts['port']}" : '') . rtrim(dirname($scriptName), '/');
+
+
     
     // Store it
     $this->base_url     = rtrim($baseUrl, '/') . '/';

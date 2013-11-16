@@ -8,6 +8,13 @@
  */
 $Origo->data['header'] = '<h1>Trial</h1>';
 
+$Origo->data['slogan'] = 'A PHP-based MVC-inspired CMF';
+$Origo->data['logo'] = theme_url('logo_80x80.png');
+$Origo->data['logo_width'] = 80;
+$Origo->data['logo_height'] = 80;
+
+
+
 $Origo->data['footer'] = <<<EOD
 <p>Footer: &copy; Trial enligt tutorial</p>
 

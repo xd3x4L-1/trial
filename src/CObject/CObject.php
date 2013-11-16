@@ -9,7 +9,9 @@ class CObject {
         public $config;
         public $request;
         public $data;
-
+		public $db;
+		
+		
         /**
          * Constructor
          */
@@ -18,6 +20,7 @@ class CObject {
     $this->config = &$Origo->config;
     $this->request = &$Origo->request;
     $this->data = &$Origo->data;
+	$this->db       = &$Origo->db;
   }
 
 }

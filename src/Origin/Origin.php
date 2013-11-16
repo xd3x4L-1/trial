@@ -6,11 +6,17 @@
  */
 class Origin implements ISingleton {
 
-/*variable sätts till null för att i funktionen Instance påverka så att
+/*variable $instance sätts till null för att i funktionen Instance påverka så att
 endast ett objekt kan skapas av klassen.
 */
 
   private static $instance = null;
+  public $config = null;
+  public $request = null;
+  public $data = null;
+  public $db = null;	
+
+
 
   /**
    * Constructor
@@ -24,7 +30,7 @@ ramverkets fortsatta exekvering.
 
   protected function __construct() {
 
-    // include the site specific config.php and create a ref to $ly to be used by config.php
+    // include the site specific config.php and create a ref to $Origo to be used by config.php
 
 /*$Origo = &$this; gör det möjligt att direkt använda $Origo i config.php.
 */
@@ -38,7 +44,10 @@ ramverkets fortsatta exekvering.
     //Set default date/time-zone
     date_default_timezone_set($this->config['timezone']);
 	
-	
+	// Create a database object.
+      if(isset($this->config['database'][0]['dsn'])) {
+        $this->db = new CMDatabase($this->config['database'][0]['dsn']);
+     }
 	
 	
 	
@@ -75,7 +84,7 @@ self används för att relatera till infomration som hör till klassen, i detta fal
 /*Vid skapandet av det nya objektet används konfigurationen för inkommande url i config.php.
 */
 
-    $this->request = new CRequest($this->config['url_in']);
+    $this->request = new CRequest($this->config['url_type']);
 
     $this->request->Init($this->config['base_url']);
 

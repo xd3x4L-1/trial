@@ -1,7 +1,7 @@
 html {background:#FFFFFF;}
 html{overflow-y:scroll;}
 
-body{margin-top: -30mm; margin-bottom: 0px; 
+body{margin-top: -10mm; margin-bottom: 0px; 
 margin-left: 30mm; margin-right:30mm;}
 body{padding:10mm; background: #FFFFFF;}
 body{min-width:280mm;transform: scale(0.87,0.87);
@@ -10,6 +10,24 @@ body{min-width:280mm;transform: scale(0.87,0.87);
 
 body{  font-family: Georgia, serif;}
 body{color: #333;}
+
+
+
+
+banner {display:table;margin-bottom:10px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 header,footer,nav,article,section,aside,figure,figcaption{display:block;}

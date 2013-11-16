@@ -33,7 +33,21 @@ ini_set('display_errors', 1);
 /**
 * Set what to show as debug or developer information in the get_debug() theme helper.
 */
-$Origo->config['debug']['display-trial'] = true;
+
+
+    /**
+    * Set what to show as debug or developer information in the get_debug() theme helper.
+    */
+    $Origo->config['debug']['trial'] = false;
+    $Origo->config['debug']['db-num-queries'] = true;
+    $Origo->config['debug']['db-queries'] = true;
+
+
+
+
+
+
+
 
     /**
     * What type of urls should be used?
