@@ -10,6 +10,7 @@ class CObject {
         public $request;
         public $data;
 		public $db;
+		public $views;
 		
 		
         /**
@@ -21,6 +22,8 @@ class CObject {
     $this->request = &$Origo->request;
     $this->data = &$Origo->data;
 	$this->db       = &$Origo->db;
+	$this->views    = &$Origo->views;
+	
   }
 
 }

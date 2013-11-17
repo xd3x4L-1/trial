@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="sv"> 
+<html lang='en'>
 <head>
-  <meta charset="utf-8">
+  <meta charset='utf-8'/>
   <title><?=$title?></title>
-  <link rel="stylesheet" href="<?=$stylesheet?>">
-  <link rel="shortcut icon" href="<?=$favicon?>">
-
+        <link rel='shortcut icon' href='<?=$favicon?>'/>
+<link rel='stylesheet' href='<?=$stylesheet?>'/>
 </head>
- <div id='wrap-header'>
+<body>
+<div id='wrap-header'>
 <div id='header'>
 <div id='banner'>
 <a href='<?=base_url()?>'>
@@ -20,7 +20,8 @@
 </div>
 <div id='wrap-main'>
 <div id='main' role='main'>
-<?=$main?>
+<?=@$main?>
+<?=render_views()?>
 </div>
 </div>
 <div id='wrap-footer'>
@@ -30,4 +31,4 @@
 </div>
 </div>
 </body>
-</html> 
+</html>

@@ -35,15 +35,27 @@ function autoload($aClassName) {
 
 spl_autoload_register('autoload');
 
+/**
+* Set a default exception handler and enable logging in it.
+*/
+function exceptionHandler($e) {
+  echo "Trial: Uncaught exception: <p>" . $e->getMessage() . "</p><pre>" . $e->getTraceAsString(), "</pre>";
+}
+set_exception_handler('exceptionHandler');
 
-    /**
-    * Set a default exception handler and enable logging in it.
-    */
-    function exception_handler($exception) {
-      echo "Trial: Uncaught exception: <p>" . $exception->getMessage() . "</p><pre>" . $exception->getTraceAsString(), "</pre>";
-    }
-    set_exception_handler('exception_handler');
 
+/**
+* Helper, include a file and store it in a string. Make $vars available to the included file.
+*/
+function getIncludeContents($filename, $vars=array()) {
+  if (is_file($filename)) {
+    ob_start();
+    extract($vars);
+    include $filename;
+    return ob_get_clean();
+  }
+  return false;
+}
 
 
 

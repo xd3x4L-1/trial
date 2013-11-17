@@ -49,7 +49,8 @@ ramverkets fortsatta exekvering.
         $this->db = new CMDatabase($this->config['database'][0]['dsn']);
      }
 	
-	
+	// Create a container for all views and theme data
+          $this->views = new CViewContainer();
 	
 	
 	
@@ -71,63 +72,41 @@ self används för att relatera till infomration som hör till klassen, i detta fal
     return self::$instance;
   }
   
-
-  /**
-   * Frontcontroller, check url and route to controllers.
-   */
+  
+          /**
+         * Frontcontroller, check url and route to controllers.
+         */
   public function FrontControllerRoute() {
     // Take current url and divide it in controller, method and parameters
-
-/*Här byggs ett objekt request av klassen Crequest som inom klassen Origin refereras som
- $this->request.
-*/
-/*Vid skapandet av det nya objektet används konfigurationen för inkommande url i config.php.
-*/
-
     $this->request = new CRequest($this->config['url_type']);
-
     $this->request->Init($this->config['base_url']);
-
-
-
-
     $controller = $this->request->controller;
-    $method     = $this->request->method;
-    $arguments  = $this->request->arguments;
+    $method = $this->request->method;
+    $arguments = $this->request->arguments;
     
     // Is the controller enabled in config.php?
-    $controllerExists   = isset($this->config['controllers'][$controller]);
-    $controllerEnabled   = false;
-    $className          = false;
-    $classExists         = false;
-
-
-/*för att göra anropet med PHP Reflection lite enklare används tre variabler
-*/
+    $controllerExists         = isset($this->config['controllers'][$controller]);
+    $controllerEnabled         = false;
+    $className                         = false;
+    $classExists                  = false;
 
     if($controllerExists) {
-      $controllerEnabled   = ($this->config['controllers'][$controller]['enabled'] == true);
-      $className          = $this->config['controllers'][$controller]['class'];
-      $classExists         = class_exists($className);
+      $controllerEnabled         = ($this->config['controllers'][$controller]['enabled'] == true);
+      $className                                        = $this->config['controllers'][$controller]['class'];
+      $classExists                  = class_exists($className);
     }
     
     // Check if controller has a callable method in the controller class, if then call it
     if($controllerExists && $controllerEnabled && $classExists) {
       $rc = new ReflectionClass($className);
       if($rc->implementsInterface('IController')) {
- 	$formattedMethod = str_replace(array('_', '-'), '', $method);
-
-
+         $formattedMethod = str_replace(array('_', '-'), '', $method);
         if($rc->hasMethod($formattedMethod)) {
           $controllerObj = $rc->newInstance();
           $methodObj = $rc->getMethod($formattedMethod);
-	if($methodObj->isPublic()) {
+          if($methodObj->isPublic()) {
             $methodObj->invokeArgs($controllerObj, $arguments);
-
-/*Ett sätt att ta del av värden ifrån den klass som anropats med reflection.
-*/
-
-	} else {
+          } else {
             die("404. " . get_class() . ' error: Controller method not public.');
           }
         } else {
@@ -136,43 +115,44 @@ self används för att relatera till infomration som hör till klassen, i detta fal
       } else {
         die('404. ' . get_class() . ' error: Controller does not implement interface IController.');
       }
-    } 
-    else { 
+    }
+    else {
       die('404. Page is not found.');
     }
-  } 
+  }
+
+  /**
+         * ThemeEngineRender, renders the reply of the request to HTML or whatever.
+         */
+  public function ThemeEngineRender() {
+    // Is theme enabled?
+    if(!isset($this->config['theme'])) {
+      return;
+    }
+    
+    // Get the paths and settings for the theme
+    $themeName         = $this->config['theme']['name'];
+    $themePath         = LYDIA_INSTALL_PATH . "/themes/{$themeName}";
+    $themeUrl                = $this->request->base_url . "themes/{$themeName}";
+    
+    // Add stylesheet path to the $Origo->data array
+    $this->data['stylesheet'] = "{$themeUrl}/style.css";
+
+    // Include the global functions.php and the functions.php that are part of the theme
+    $Origo = &$this;
+    include(LYDIA_INSTALL_PATH . '/themes/functions.php');
+    $functionsPath = "{$themePath}/functions.php";
+    if(is_file($functionsPath)) {
+      include $functionsPath;
+    }
+
+    // Extract $Origo->data to own variables and handover to the template file
+    extract($this->data);
+    extract($this->views->GetData());
+    include("{$themePath}/default.tp1.php");
+  }
  
   
-         /**
-        * ThemeEngineRender, renders the reply of the request.
-        */
-      public function ThemeEngineRender() {
-        // Get the paths and settings for the theme
-
-/*Här hämta namnet för temat under den enda nyckel som finns, nämligen 'name'.
-*/
-        $themeName    = $this->config['theme']['name'];
-        $themePath    = LYDIA_INSTALL_PATH . "/themes/{$themeName}";
-        $themeUrl      = $this->request->base_url . "themes/{$themeName}";
-       
-        // Add stylesheet path to the $Origo->data array
-        $this->data['stylesheet'] = "{$themeUrl}/style.css";
-	 $this->data['favicon'] = "{$themeUrl}/img/favicon.ico";
-
-        // Include the global functions.php and the functions.php that are part of the theme
-        $Origo = &$this;
-
-	 include(LYDIA_INSTALL_PATH . '/themes/functions.php');
-
-        $functionsPath = "{$themePath}/functions.php";
-        if(is_file($functionsPath)) {
-          include $functionsPath;
-        }
-
-        // Extract $Origo->data to own variables and handover to the template file
-        extract($this->data);     
-        include("{$themePath}/default.tp1.php");
-      }
        
 
 } 
