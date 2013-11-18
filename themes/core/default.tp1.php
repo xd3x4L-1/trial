@@ -20,10 +20,11 @@
 </div>
 <div id='wrap-main'>
 <div id='main' role='main'>
-<?=@$main?>
-<?=render_views()?>
-</div>
-</div>
+      <?=get_messages_from_session()?>
+      <?=@$main?>
+      <?=render_views()?>
+    </div>
+  </div>
 <div id='wrap-footer'>
 <div id='footer'>
 <?=$footer?>

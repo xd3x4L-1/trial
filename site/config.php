@@ -41,7 +41,8 @@ ini_set('display_errors', 1);
     $Origo->config['debug']['trial'] = false;
     $Origo->config['debug']['db-num-queries'] = true;
     $Origo->config['debug']['db-queries'] = true;
-
+    $Origo->config['debug']['session'] = false;
+    $Origo->config['debug']['timer'] = true;
 
 
 
@@ -72,6 +73,8 @@ ini_set('display_errors', 1);
 */
 
 $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+
+$Origo->config['session_key']  = 'trial';
 
 /**
  * Define server timezone

@@ -6,7 +6,7 @@
 /**
  * Add static entries in the template file. 
  */
-$Origo->data['header'] = '<h1>Trial</h1>';
+$Origo->data['header'] = 'Trial';
 
 $Origo->data['slogan'] = 'A PHP-based MVC-inspired CMF';
 $Origo->data['logo'] = theme_url('logo_80x80.png');

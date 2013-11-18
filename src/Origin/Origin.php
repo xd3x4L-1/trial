@@ -11,11 +11,13 @@ endast ett objekt kan skapas av klassen.
 */
 
   private static $instance = null;
-  public $config = null;
-  public $request = null;
-  public $data = null;
-  public $db = null;	
-
+  public $config = array();
+  public $request;
+  public $data;
+  public $db;	
+  public $views;
+  public $session;
+  public $timer = array();
 
 
   /**
@@ -29,6 +31,12 @@ ramverkets fortsatta exekvering.
 */
 
   protected function __construct() {
+  
+  // time page generation
+                $this->timer['first'] = microtime(true); 
+  
+  
+  
 
     // include the site specific config.php and create a ref to $Origo to be used by config.php
 
@@ -40,7 +48,12 @@ ramverkets fortsatta exekvering.
 	
 	session_name($this->config['session_name']);
     session_start();
-    
+	
+	
+    $this->session = new CSession($this->config['session_key']);
+                $this->session->PopulateFromSession();
+				
+				
     //Set default date/time-zone
     date_default_timezone_set($this->config['timezone']);
 	
@@ -121,10 +134,13 @@ self används för att relatera till infomration som hör till klassen, i detta fal
     }
   }
 
-  /**
+        /**
          * ThemeEngineRender, renders the reply of the request to HTML or whatever.
          */
   public function ThemeEngineRender() {
+    // Save to session before output anything
+    $this->session->StoreInSession();
+  
     // Is theme enabled?
     if(!isset($this->config['theme'])) {
       return;
@@ -137,7 +153,8 @@ self används för att relatera till infomration som hör till klassen, i detta fal
     
     // Add stylesheet path to the $Origo->data array
     $this->data['stylesheet'] = "{$themeUrl}/style.css";
-
+ $this->data['favicon'] = "{$themeUrl}/img/favicon.ico";
+ 
     // Include the global functions.php and the functions.php that are part of the theme
     $Origo = &$this;
     include(LYDIA_INSTALL_PATH . '/themes/functions.php');
