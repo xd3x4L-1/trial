@@ -9,9 +9,9 @@
 $Origo->data['header'] = 'Trial';
 
 $Origo->data['slogan'] = 'A PHP-based MVC-inspired CMF';
-$Origo->data['logo'] = theme_url('logo_80x80.png');
-$Origo->data['logo_width'] = 80;
-$Origo->data['logo_height'] = 80;
+$Origo->data['logo'] = theme_url('img/drawing.png');
+$Origo->data['logo_width'] = 40;
+$Origo->data['logo_height'] = 30;
 
 
 

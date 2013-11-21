@@ -1,97 +1,110 @@
 <?php
-/**
-* Wrapper for session, read and store values on session. Maintains flash values for one pageload.
-*
-* @package TrialCore
-*/
-class CSession {
 
-        /**
-         * Members
-         */
-        private $key;
-        private $data = array();
-        private $flash = null;
+/* Denna klass innehar funktioner för att hantera meddelanden till användaren dels AddMessage och GetMessage som
+ger användaren i klartext uppgift om vilka frågor som utförts mot databasen och utskrift sker långt upp i
+trial/Guestbook. 
+dels metoderna SetFlash och GetFlash som används för att ge användren information om
+tidsåtgång för frågor mot databasen, antalet frågor för varje begärd åtgärd av användaren och
+den direkta SQL-kod som används vid frågorna
+*/
+
+	class CSession {
+
+       private $key;
+       private $data = array();
+       private $flash = null;
         
-
-        /**
-         * Constructor
-         */
-        public function __construct($key) {
-    $this->key = $key;
-  }
-
-
-        /**
-         * Set values
-         */
-        public function __set($key, $value) {
-    $this->data[$key] = $value;
-  }
-
-
-        /**
-         * Get values
-         */
-        public function __get($key) {
-    return isset($this->data[$key]) ? $this->data[$key] : null;
-  }
-
-
-  /**
-* Set flash values, to be remembered one page request
+/* då konstruktorn anropas pga av att ett nytt objekt av klassen skapas i Origins konstruktor
+så ges medlemsvariablen det värde som finns förinställdt i config.php. För 
+närvarande är detta värde = 'trial'.
 */
-  public function SetFlash($key, $value) {
-    $this->data['flash'][$key] = $value;
-  }
+
+       public function __construct($key) {
+    	$this->key = $key;
+  	}
 
 
-  /**
-* Get flash values, if any.
+
+       public function __set($key, $value) {
+    	$this->data[$key] = $value;
+  	}
+
+       public function __get($key) {
+    	return isset($this->data[$key]) ? $this->data[$key] : null;
+  	}
+
+
+
+/*denna funktion SetFlash($key, $value) anropas av funktionen RedirectTo($url) i CObjekt vilken i sig 
+obligatoriskt anropas efter 
+varje utförd fråga mot datavasen av metod Handler i CCGuestbook.
+alla nycklar - 'database_numQueries', 'database_queries', 'timer' används varje gång och 
+bå ersätts värdet för denna nyckel med ett nytt.
+
+Funktionen lagrar de värden om antalet frågor, frågorna i sig och tiden för att
+utskrift senare skall kunna ske under sidfoten i trial/guestbook.
 */
-  public function GetFlash($key) {
-    return isset($this->flash[$key]) ? $this->flash[$key] : null;
-  }
+  	public function SetFlash($key, $value) {
+    	$this->data['flash'][$key] = $value;
+  	}
 
 
-  /**
-* Add message to be displayed to user on next pageload. Store in flash.
-*
-* @param $type string the type of message, for example: notice, info, success, warning, error.
-* @param $message string the message.
+/*denna funktion GetFlash($key, $value) anropas av html-dokumentet i filem themes/core/default.tp1.php
+via metoden get_debug() i filen themes/functions.php för att det innehåll som lagrats i 
+funktion SetFlash($key, $value) lagrat till ['flash'][$key] via get_debug skall
+kunna skrivas ut nedanför fotern i /trial/guestbook.
 */
-  public function AddMessage($type, $message) {
-    $this->data['flash']['messages'][] = array('type' => $type, 'message' => $message);
-  }
+
+  	public function GetFlash($key) {
+    	return isset($this->flash[$key]) ? $this->flash[$key] : null;
+  	}
 
 
-        /**
-         * Get messages, if any. Each message is composed of a key and value. Use the key for styling.
-         *
-         * @returns array of messages. Each array-item contains a key and value.
-         */
+
+
+
+/*AddMessage anropas ifrån metoderna Add($entry), DeleteAll(), Init() i CMGuestbook
+för att metoden skall lagra ett meddelande till användaren om vad som utföts i frågor till
+databasen
+*/
+  	public function AddMessage($type, $message) {
+    	$this->data['flash']['messages'][] = array('type' => $type, 'message' => $message);
+  	}
+
+
         public function GetMessages() {
-    return isset($this->flash['messages']) ? $this->flash['messages'] : null;
-  }
+    	return isset($this->flash['messages']) ? $this->flash['messages'] : null;
+  	}
 
 
-  /**
-* Store values into session.
+
+
+/*Denna metod StoreInSession() anropas ifrån ThemeEngineRender i Origin och gör 
+arrayen $this-> data under $_SESSION med nyckel ifrån config.
 */
-  public function StoreInSession() {
-    $_SESSION[$this->key] = $this->data;
-  }
+ 
+  	public function StoreInSession() {
+    	$_SESSION[$this->key] = $this->data;
+  	}
 
 
-  /**
-* Store values from this object into the session.
+/*I denna funktion PopulateFromSession skrivs innehållet i $this->data['flash'] över till $this->flash
+och innehållet i $this->data['flash'] raderas sedan.
+detta sker vid varje förfrågan eftersom anrop kommer ifrån konstruktorn i Origin.
+-detta har att göra med att med att meddelanden skall överleva två sidanrop
+men inte mer. *se att det är skillnad så tilllvida att funktion AddMessages lagrar till 
+$this->data['flash']['messages'][] och på att Get Messages returnerar ifrån 
+$this->flash['messages']
 */
-  public function PopulateFromSession() {
-    if(isset($_SESSION[$this->key])) {
-      $this->data = $_SESSION[$this->key];
-      if(isset($this->data['flash'])) {
-        $this->flash = $this->data['flash'];
-        unset($this->data['flash']);
+
+
+
+  	public function PopulateFromSession() {
+    	if(isset($_SESSION[$this->key])) {
+      	$this->data = $_SESSION[$this->key];
+      	if(isset($this->data['flash'])) {
+       $this->flash = $this->data['flash'];
+       unset($this->data['flash']);
       }
     }
   }

@@ -1,196 +1,166 @@
  <?php
-/**
- * Parse the request and identify controller, method and arguments.
- *
- * @package TrialCore
- */
-class CRequest {
 
-  /**
-   * Member variables
-   */
+	class CRequest {
+
   public $cleanUrl;
   public $querystringUrl;
 
+/* 
+I config finns $Origo->config['url_type'] = 1;
+och därför ges i konstruktorn att  $this->cleanUrl=true.
 
-  /**
-   * Constructor
-   *
-   * Decide which type of url should be generated as outgoing links.
-   * default      = 0      => index.php/controller/method/arg1/arg2/arg3
-   * clean        = 1      => controller/method/arg1/arg2/arg3
-   * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
-   *
-   * @param boolean $urlType integer 
-
-   */
-
-
-/* Funktionen använder som default länktyp=0 som ställt in i config via $Origo->config['url_in'] = 0;
+Decide which type of url should be generated as outgoing links.
+default      = 0      => index.php/controller/method/arg1/arg2/arg3
+clean        = 1      => controller/method/arg1/arg2/arg3
+querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
+@param boolean $urlType integer 
 */
 
-  public function __construct($urlType) {
   
-    $this->cleanUrl       = $urlType= 1 ? true : false;
-    $this->querystringUrl = $urlType= 2 ? true : false;
-
-
-  }
-
-/**
-         * Create a url in the way it should be created.
-         *
-         * @param $url string the relative url or the controller
-         * @param $method string the method to use, $url is then the controller or empty for current
-         */
-        public function CreateUrl($url=null, $method=null) {
-    // If fully qualified just leave it.
-                if(!empty($url) && (strpos($url, '://') || $url[0] == '/')) {
-                        return $url;
-                }
-    
-    // Get current controller if empty and method choosen
-    if(empty($url) && !empty($method)) {
-      $url = $this->controller;
-    }
-    
-    // Create url according to configured style
-    $prepend = $this->base_url;
-    if($this->cleanUrl) {
-      ;
-    } elseif ($this->querystringUrl) {
-      $prepend .= 'index.php?q=';
-    } else {
-      $prepend .= 'index.php/';
-    }
-    return $prepend . rtrim("$url/$method", '/');
-  }
-
-  /**
-   * Parse the current url request and divide it in controller, method and arguments.
-   *
-   * Calculates the base_url of the installation. Stores all useful details in $this.
-   *
-   * @param $baseUrl string use this as a hardcoded baseurl.
-   */
-  public function Init($baseUrl = null) {
+	public function __construct($urlType) {
+  
+    	$this->cleanUrl       = $urlType= 1 ? true : false;
+    	$this->querystringUrl = $urlType= 2 ? true : false;
+	}
 
 
 /*vid drift på www.bth.se motsvarar $_SERVER['SCRIPT_NAME'] /~boer13/phpmvc/kmom02/trial/index.php
 då alla länkar om de har rätt konstruktion omdiregera av .htacces.
-*/
 
-// Take current url and divide it in controller, method and arguments
+Först i metoden ges $requestUri, $scriptPart värden ifrån $SERVER och det är det
+som gör att metoden kan arbeta med den länk som frågat efter den sida som kör koden.
 
-$requestUri = $_SERVER['REQUEST_URI'];
+($requestUri, $scriptName, 0, strlen($scriptName) ) genererar ett positivt tal om echo $_SERVER['REQUEST_URI'] 
+är längre än echo $_SERVER['SCRIPT_NAME'];
+och ett negativt om längden är kortare och med nuvarande namn på filerna för controllers kan längden av länk på 
+form controller/method/arg1/arg2/arg3
+ej bli lika längden på /~boer13/phpmvc/kmom02/trial/index.php så om länken har form controller/method/arg1/arg2/arg3 
+sker exekvering i if-delen.
 
-$scriptPart = $scriptName = $_SERVER['SCRIPT_NAME'];    
-
-/*($requestUri, $scriptName, 0, strlen($scriptName) )   genererar ett positivt tal om echo $_SERVER['REQUEST_URI'] är längre än echo $_SERVER['SCRIPT_NAME'];
-och ett negativt om längden är kortare och med nuvarande namn på filerna för controllers kan längden av länk på form controller/method/arg1/arg2/arg3
- ej bli lika längden på /~boer13/phpmvc/kmom02/trial/index.php så om länken har form controller/method/arg1/arg2/arg3 sker exekvering i if-delen.
-
-*/
-
-/*För falla att länken har form index.php/controller/method/arg1/arg2/arg3 eller index.php?q=controller/method/arg1/arg2/arg3
+För fall att länken har form index.php/controller/method/arg1/arg2/arg3 eller index.php?q=controller/method/arg1/arg2/arg3
 blir värdet av ($requestUri, $scriptName, 0, strlen($scriptName) )=0 och exekvering av del i if-del sker ej.
+
+$a=substr_compare($requestUri, $scriptName, 0, strlen($scriptName));
+går att använda för kontroll av funktion.
+Check if url is in format controller/method/arg1/arg2/arg3
+
+Därefter att kontroll av länktyp fullgjorts 
+tas den del av inkommande länk som ligger bakom /~boer13/phpmvc/kmom02/trial/ fram.
+
+om del enligt ovan innehåller ett frågetecken på position [0] ställs $query om till $_GET['q'].
+
+
+Därefter gäller att om controller och metod ej ges av inkommande länk används kontroller index och metod index 
+som default.
+
+Metod Init($baseUrl = null) tart sedan fram den fullständiga adressen (inte bara den lokala)
+till efterfrågad sida genom anropa metoden GetCurrentUrl().
+
+I Init($baseUrl = null) delas därefter efrerfrågad fullständig url till sina delar 
+och dessa används sedan för att bygga en fullständig adress till ramverkets installationskatalog.
+En url till installationskatalogen byggs av delar. För studentservern gäller http, www.student.bth.se ,/~boer13/phpmvc/kmom02/trial/
+
+Sisti metoden Init($baseUrl = null) sparas alla värden som tagits fram i variabler.
+
 */
 
-/*$a=substr_compare($requestUri, $scriptName, 0, strlen($scriptName));
-att använda för kontroll av funktion.
-*/
+
+	public function Init($baseUrl = null) {
+
+	$requestUri = $_SERVER['REQUEST_URI'];
+	$scriptPart = $scriptName = $_SERVER['SCRIPT_NAME'];    
 
 
+     	if(substr_compare($requestUri, $scriptName, 0, strlen($scriptName))) {
+     	$scriptPart = dirname($scriptName);
+     	}
 
- // Check if url is in format controller/method/arg1/arg2/arg3
-    if(substr_compare($requestUri, $scriptName, 0, strlen($scriptName))) {
-      $scriptPart = dirname($scriptName);
-    }
+	$query = trim(substr($requestUri, strlen(rtrim($scriptPart, '/'))), '/');  
+	$pos = strcspn($query, '?');
 
+    	if($pos) {
+    	$query = substr($query, 0, $pos);
+    	}
 
+    	if(substr($query, 0, 1) === '?' && isset($_GET['q'])) {
+    	$query = trim($_GET['q']);
+    	}
 
-
-
-
-
-
- 
-
-/*här tas den del av inkommande länk som ligger bakom   /~boer13/phpmvc/kmom02/trial/ fram
-*/
-    $query = trim(substr($requestUri, strlen(rtrim($scriptPart, '/'))), '/');  
-
-/*om istället  första tecknet i $query är ett frågetecken ställs $query om till $_GET['q'].
-*/
-
- $pos = strcspn($query, '?');
-    if($pos) {
-      $query = substr($query, 0, $pos);
-    }
-
-
-
-
-
-
-
-
-
-    // Check if this looks like a querystring approach link
-    if(substr($query, 0, 1) === '?' && isset($_GET['q'])) {
-      $query = trim($_GET['q']);
-    }
-
-    $splits = explode('/', $query);
+	$splits = explode('/', $query);
     
-    // Set controller, method and arguments
+    	$controller =  !empty($splits[0]) ? $splits[0] : 'index';
+    	$method     =  !empty($splits[1]) ? $splits[1] : 'index';
+    	$arguments = $splits;
+    	unset($arguments[0], $arguments[1]); // remove controller & method part from argument list
 
-/*om controller och metod ej ges av inkommande länk används kontroller index och metod index som default.
+    	$currentUrl = $this->GetCurrentUrl();
+       $parts       = parse_url($currentUrl);
+    	$baseUrl     = !empty($baseUrl) ? $baseUrl : "{$parts['scheme']}://{$parts['host']}" . (isset($parts['port']) ? ":{$parts['port']}" : '') . rtrim(dirname($scriptName), '/');
+
+
+    	$this->base_url     = rtrim($baseUrl, '/') . '/';
+    	$this->current_url  = $currentUrl;
+    	$this->request_uri  = $requestUri;
+    	$this->script_name  = $scriptName;
+    	$this->query        = $query;
+    	$this->splits        = $splits;
+    	$this->controller    = $controller;
+    	$this->method        = $method;
+    	$this->arguments    = $arguments;
+  	}
+
+/*Metod function GetCurrentUrl tar sedan fram den fullständiga adressen (inte bara den lokala)
+till efterfrågad sida genom anropa metoden med hjälp av skrivna data för serverns port och variabler av typ
+$SERVER[].
 */
 
-    $controller =  !empty($splits[0]) ? $splits[0] : 'index';
-    $method     =  !empty($splits[1]) ? $splits[1] : 'index';
-    $arguments = $splits;
-    unset($arguments[0], $arguments[1]); // remove controller & method part from argument list
-    
-    // Prepare to create current_url and base_url
-    $currentUrl = $this->GetCurrentUrl();
 
 
-/* här delas nuvarande url upp i sina bestående delar.
+  	public function GetCurrentUrl() {
+    	$url = "http";
+    	$url .= (@$_SERVER["HTTPS"] == "on") ? 's' : '';
+    	$url .= "://";
+    	$serverPort = ($_SERVER["SERVER_PORT"] == "80") ? '' :
+    	(($_SERVER["SERVER_PORT"] == 443 && @$_SERVER["HTTPS"] == "on") ? '' : ":{$_SERVER['SERVER_PORT']}");
+    	$url .= $_SERVER["SERVER_NAME"] . $serverPort . htmlspecialchars($_SERVER["REQUEST_URI"]);
+    	return $url;
+  	}
+
+
+/*Denna metod public function CreateUrl($url=null, $method=null) 
+använs för att utifrån en variabel $url innehållande controller och metod taga fram olika
+former av länkar.
+Metoden används av developer/links för att visas för användaren.
 */
-    $parts       = parse_url($currentUrl);
-
-/* en url till installationskatalogen byggs av delar. För studentservern gäller http, www.student.bth.se ,/~boer13/phpmvc/kmom02/trial/
-*/
-    $baseUrl     = !empty($baseUrl) ? $baseUrl : "{$parts['scheme']}://{$parts['host']}" . (isset($parts['port']) ? ":{$parts['port']}" : '') . rtrim(dirname($scriptName), '/');
 
 
-    
-    // Store it
-    $this->base_url     = rtrim($baseUrl, '/') . '/';
-    $this->current_url  = $currentUrl;
-    $this->request_uri  = $requestUri;
-    $this->script_name  = $scriptName;
-    $this->query        = $query;
-    $this->splits        = $splits;
-    $this->controller    = $controller;
-    $this->method        = $method;
-    $this->arguments    = $arguments;
-  }
+	public function CreateUrl($url=null, $method=null) {
 
+    	// If fully qualified just leave it.
 
-  /**
-   * Get the url to the current page. 
-   */
-  public function GetCurrentUrl() {
-    $url = "http";
-    $url .= (@$_SERVER["HTTPS"] == "on") ? 's' : '';
-    $url .= "://";
-    $serverPort = ($_SERVER["SERVER_PORT"] == "80") ? '' :
-    (($_SERVER["SERVER_PORT"] == 443 && @$_SERVER["HTTPS"] == "on") ? '' : ":{$_SERVER['SERVER_PORT']}");
-    $url .= $_SERVER["SERVER_NAME"] . $serverPort . htmlspecialchars($_SERVER["REQUEST_URI"]);
-    return $url;
-  }
+       if(!empty($url) && (strpos($url, '://') || $url[0] == '/')) {
+       return $url;
+       }
 
-} 
+    	// Get current controller if empty and method choosen
+
+    	if(empty($url) && !empty($method)) {
+      	$url = $this->controller;
+    	}
+
+    	// Create url according to configured style
+
+    	$prepend = $this->base_url;
+
+    	if($this->cleanUrl) {
+      	;
+    	} elseif ($this->querystringUrl) {
+      	$prepend .= 'index.php?q=';
+    	} else {
+      	$prepend .= 'index.php/';
+    	}
+    	return $prepend . rtrim("$url/$method", '/');
+  	}
+  
+
+	}

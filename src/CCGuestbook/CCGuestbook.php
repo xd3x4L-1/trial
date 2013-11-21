@@ -1,116 +1,85 @@
 <?php
-/**
-* A guestbook controller as an example to show off some basic controller and model-stuff.
-*
-* @package TrialCore
-*/
-class CCGuestbook extends CObject implements IController, IHasSQL {
 
-  private $pageTitle = 'Trial Guestbook Example';
+/*Ett objekt av klassen skapas vid anrop med PHP reflection i klass Origin metod FrontControllerRoute()
+och som en följ av detta laddas filen och konstruktorn anropar konstruktorn i 
+klass CObject.
+medlemsvariabeln $guestbookModel blir i konstruktorn till ett objekt av CMGuestbook och detta
+objekt håller metoder för att initiera databasen, skriva till databasen, radera ur databasen, och
+läsa alla meddelanden i databasen.
+*/ 
   
-  /**
-* Constructor
+	class CCGuestbook extends CObject implements IController {
+
+  	private $guestbookModel;
+  
+  	public function __construct() {
+    	parent::__construct();
+    	$this->guestbookModel = new CMGuestbook();
+  	}
+
+
+/*den metod som alltid kallas om ingen metod anges är Index() och den återkallas också då
+de den andra metoden handler () brukats eftersom den gör en redirect där bara kontroller ges och
+Index() är default.
+
+I origin har ett objekt views av CViewContainer skapats och detta är i metoden Index() tillgängligt 
+då klassen ärver av CObject som häller en instans av Origin.
+
+Index() ropar först på metoden SetTitle i CViewcontainer med medskickad sträng 'Lydia Guestbook Example'
+och metoden SetTitle skickar vidare till metoden SetVariable i CViewcontaoner och på så vis
+ges att $this->data['title']='Lydia Guestbook Example';
+
+vad som sker därefter är att metoden ReadAll i CMguestbook anropas för objektet guestbookModel och den
+anropar metoden ExecuteSelectQueryandFetchAll som finns i CMDatabase och resultatet läggs till arrayen 
+under nyckel 'entries'.
+
+Vad som sen sker är att denna array med variabler görs tillgänglig för filen __DIR__ . '/index.tpl.php'
+via metoden Addinclude i CViewContainer.
+
+I slutet av filen __DIR__ . '/index.tpl.php' finns kod för att skriva in innehållet i 'entries till,
+olika <div>element.
+
+därefter ges variabel $formAction värdet http://www.student.bth.se/~boer13/phpmvc/kmom03/trial/guestbook/handler
+föra att metoden handler skall anropas om någon av knapparna i formuläret som ges av
+__DIR__ . '/index.tpl.php' trycks in.
+
+
 */
-  public function __construct() {
-    parent::__construct();
-  }
 
+  	public function Index() {
 
-        /**
-         * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
-         *
-         * @param string $key the string that is the key of the wanted SQL-entry in the array.
-         */
-  public static function SQL($key=null) {
-          $queries = array(
-                  'create table guestbook' => "CREATE TABLE IF NOT EXISTS Guestbook (id INTEGER PRIMARY KEY, entry TEXT, created DATETIME default (datetime('now')));",
-                  'insert into guestbook' => 'INSERT INTO Guestbook (entry) VALUES (?);',
-                  'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
-                  'delete from guestbook' => 'DELETE FROM Guestbook;',
-          );
-          if(!isset($queries[$key])) {
-                  throw new Exception("No such SQL query, key '$key' was not found.");
-                }
-                return $queries[$key];
-        }
-
-
- /**
-* Implementing interface IController. All controllers must have an index action.
-*/
-  public function Index() {
-    $this->views->SetTitle($this->pageTitle);
-    $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
-      'entries'=>$this->ReadAllFromDatabase(),
-	  //'formAction'=>$this->request->CreateUrl('', 'handler')
+    	$this->views->SetTitle('Lydia Guestbook Example');
+    
+	$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+      	'entries'=>$this->guestbookModel->ReadAll(),
+      	'formAction'=>$this->request->CreateUrl('guestbook/handler')
 	  
-      'formAction'=>$this->request->CreateUrl('guestbook/handler')
-    ));
-  }
+    	));
+  	}
   
-  
- /**
-* Handle posts from the form and take appropriate action.
+
+/*funktionen Handler vidtar göromål om någon av knapparna i formuläret trycks in och
+för olika knappar ropas på metoder i CMGuestbook.
+Add($entry) lagrar ett meddelande till databasen, DeleteAll()raderar alla meddelanden ur databasen, 
+och Init()skapar en tabell guestbook i databasen om den inte redan finnns.
+
+funktionen omdirigerar sedan till http://www.student.bth.se/~boer13/phpmvc/kmom03/trial/guestbook
+med hjälp av metoden RedirectTo($url) som finns i CObject.
+
 */
+
   public function Handler() {
     if(isset($_POST['doAdd'])) {
-      $this->SaveNewToDatabase(strip_tags($_POST['newEntry']));
+      $this->guestbookModel->Add(strip_tags($_POST['newEntry']));
     }
     elseif(isset($_POST['doClear'])) {
-      $this->DeleteAllFromDatabase();
+      $this->guestbookModel->DeleteAll();
     }
     elseif(isset($_POST['doCreate'])) {
-      $this->CreateTableInDatabase();
+      $this->guestbookModel->Init();
     }
     $this->RedirectTo($this->request->CreateUrl($this->request->controller));
   }
   
 
-  /**
-* Save a new entry to database.
-*/
-  private function CreateTableInDatabase() {
-    try {
-      $this->db->ExecuteQuery(self::SQL('create table guestbook'));
-      $this->session->AddMessage('notice', 'Successfully created the database tables (or left them untouched if they already existed).');
-    } catch(Exception$e) {
-      die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
-    }
-  }
-  
-
-  /**
-* Save a new entry to database.
-*/
-  private function SaveNewToDatabase($entry) {
-    $this->db->ExecuteQuery(self::SQL('insert into guestbook'), array($entry));
-    $this->session->AddMessage('success', 'Successfully inserted new message.');
-    if($this->db->rowCount() != 1) {
-      die('Failed to insert new guestbook item into database.');
-    }
-  }
-  
-
-  /**
-* Delete all entries from the database.
-*/
-  private function DeleteAllFromDatabase() {
-    $this->db->ExecuteQuery(self::SQL('delete from guestbook'));
-    $this->session->AddMessage('info', 'Removed all messages from the database table.');
-  }
-  
-  
-  /**
-* Read all entries from the database.
-*/
-  private function ReadAllFromDatabase() {
-    try {
-      return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * from guestbook'));
-    } catch(Exception $e) {
-      return array();
-    }
-  } 
-  
-  
-  }
- 
+} 

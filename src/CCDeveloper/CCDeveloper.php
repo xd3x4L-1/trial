@@ -1,113 +1,129 @@
  <?php
-/**
- * Controller for development and testing purpose, helpful methods for the developer.
- * 
- * @package TrialCore
- */
 
-/* i denna klass byggs variabler upp fˆr att vara tillg‰nglig
-fˆr ramverkets temamotor.
+/*Ett objekt av klassen skapas vid anrop med PHP reflection i klass Origin metod FrontControllerRoute()
+och som en fˆlj av detta laddas filen och konstruktorn anropar konstruktorn i 
+klass CObject.
 */
 
+	class CCDeveloper extends CObject implements IController {
 
-class CCDeveloper extends CObject implements IController {
-
-
-  /**
-* Constructor
-*/
-  public function __construct() {
-    parent::__construct();
-  }
+  	public function __construct() {
+    	parent::__construct();
+  	}
   
-  /**
-    * Implementing interface IController. All controllers must have an index action.
-   */
-  public function Index() {  
-    $this->Menu();
-  }
+/* Index() anropar functionen menu som ger variablerna $menu, $main v‰rden.
+DÂ variable $main byggs anropas metod CreateUrl($val) fˆr att ta fram fullst‰ndiga l‰nkar till varje val
+som ‰r tillg‰ngligt i ramverket. Dessa l‰ggs ivariabel $html  som sedan inryms i main.
+resultatet blir $this->data['title'] och $this->data['main'].
+*/
+
+  	public function Index() {  
+    	$this->Menu();
+  	}
 
 
- /**
-         * Display all items of the CObject.
-         */
-        public function DisplayObject() {        
-                $this->Menu();
-                
-                $this->data['main'] .= <<<EOD
-<h2>Dumping content of CDeveloper</h2>
-<p>Here is the content of the controller, including properties from CObject which holds access to common resources in Origin.</p>
+/*Funktion anropar fˆrst meny och d‰rfˆr ges $this->data['main']till allt innehÂll som ges av 
+dÂ anropet kommer ifrÂn index men sedan skappas ytterliggare innehÂll i denna funktion
+sÂ att ytterliggare innehÂll tillkommer l‰ngre ned pÂ sidan n‰r $this->data['main']
+skrivs ut av templatefilen.
+
+till att bˆrja med ‰r den url typ som sedan skapas styrd av config[url_type] 
+och d‰rfˆr blir den l‰nk som ges $current av typen clean url.
+
+dÂ ‰ndras $this->request->cleanUrl = false; och l‰nk default blir d‰rfˆr pÂ typen
+index.php/developer/links
+
+I n‰sta l‰nk $clean har cleanurl Âter givits v‰rdet true och ytterliggare en l‰nk av typen clean url skapas.
+
+till sist ‰ndras v‰rdet fˆr $this->request->querystringUrl till true och den
+sista l‰nk blir dÂ pÂ formen index.php?q=developer/links.
+
+till sist l‰ggs skapade l‰nkar och en del text till $this->data['main'] enligt inledande stycke.
+
+*/
+
+  	public function Links() {  
+    
+	$this->Menu();
+    	$url = 'developer/links';
+    	$current      = $this->request->CreateUrl($url);
+
+    	$this->request->cleanUrl = false;
+    	$this->request->querystringUrl = false; 
+    	$default      = $this->request->CreateUrl($url);
+    
+   	$this->request->cleanUrl = true;
+    	$clean        = $this->request->CreateUrl($url);    
+    
+    	$this->request->cleanUrl = false;
+    	$this->request->querystringUrl = true;
+	$querystring  = $this->request->CreateUrl($url);
+ 
+    	$this->data['main'] .= <<<EOD
+	<h2>CRequest::CreateUrl()</h2>
+	<p>Here is a list of urls created using above method with various settings. All links should lead to this same page.</p>
+	<ul>
+	<li><a href='$current'>This is the current setting</a>
+	<li><a href='$default'>This would be the default url</a>
+	<li><a href='$clean'>This should be a clean url</a>
+	<li><a href='$querystring'>This should be a querystring like url</a>
+	</ul>
+	<p>Enables various and flexible url-strategy.</p>
 EOD;
-                $this->data['main'] .= '<pre>' . htmlent(print_r($this, true)) . '</pre>';
+  	}
+
+
+
+/*Funktion anropar fˆrst meny och d‰rfˆr ges $this->data['main']till allt innehÂll som ges av 
+dÂ anropet kommer ifrÂn index men sedan skappas ytterliggare innehÂll i denna funktion
+sÂ att ytterliggare innehÂll tillkommer l‰ngre ned pÂ sidan n‰r $this->data['main']
+skrivs ut av templatefilen.
+
+print_r($this, true) behandlar objektet som en array med objektets variabler som nycklar 
+och dÂ CCDEveloper ‰rver variabler ifrÂn CObject som h‰ller en instans av 
+Origin sÂ kommer ‰ven variabler ifrÂn objekt som skapats i Origin till.
+
+till sist l‰ggs skapade l‰nkar och en del text till $this->data['main'] enligt inledande stycke.
+
+*/
+
+	public function DisplayObject() {   
+     
+       $this->Menu();
+                
+      	$this->data['main'] .= <<<EOD
+	<h2>Dumping content of CDeveloper</h2>
+	<p>Here is the content of the controller, including properties from CObject which holds access to common resources in Origin.</p>
+EOD;
+        $this->data['main'] .= '<pre>' . htmlent(print_r($this, true)) . '</pre>';
         }
 
 
-  /**
-    * Create a list of links in the supported ways.
-   */
-  public function Links() {  
-    $this->Menu();
-     
-    $url = 'developer/links';
-    $current      = $this->request->CreateUrl($url);
-
-/*fˆr att skapa olika typer av l‰nkar ‰r i tur och ordning default, clenurl och querystring
-givna till true.
+/* Index(), Links() och DisplayObject() anropar functionen menu som ger variablerna $menu, $main v‰rden.
+DÂ variable $main byggs anropas metod CreateUrl($val) fˆr att ta fram fullst‰ndiga l‰nkar till varje val
+som ‰r tillg‰ngligt i ramverket. Dessa l‰ggs i variabel $html som sedan inryms i main.
+resultatet blir $this->data['title'] och $this->data['main'].
 */
 
-    $this->request->cleanUrl = false;
-    $this->request->querystringUrl = false;    
-    $default      = $this->request->CreateUrl($url);
-    
-    $this->request->cleanUrl = true;
-    $clean        = $this->request->CreateUrl($url);    
-    
-    $this->request->cleanUrl = false;
-    $this->request->querystringUrl = true;    
-    $querystring  = $this->request->CreateUrl($url);
-    
-    $this->data['main'] .= <<<EOD
-<h2>CRequest::CreateUrl()</h2>
-<p>Here is a list of urls created using above method with various settings. All links should lead to
-this same page.</p>
-<ul>
-<li><a href='$current'>This is the current setting</a>
-<li><a href='$default'>This would be the default url</a>
-<li><a href='$clean'>This should be a clean url</a>
-<li><a href='$querystring'>This should be a querystring like url</a>
-</ul>
-<p>Enables various and flexible url-strategy.</p>
-EOD;
-  }
+  	private function Menu() {  
 
-
-  /**
-    * Create a method that shows the menu, same for all methods
-   */
-  private function Menu() {  
-
-/*H√§r h√§mtas befintligt objekt av klassen Origin.
-*/  
-  
-    $Origo = Origin::Instance();
-	
-/*h√§r byggs en lista med denna kontrollers metoder upp.
-*/		
+    	$Origo = Origin::Instance();
+		
 	$menu = array('index', 'index/index', 'developer', 'developer/index', 'developer/links', 'developer/display-object', 'guestbook');
     
-    $html = null;
+    	$html = null;
 	
-    foreach($menu as $val) {
-      $html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";  
-    }
+    	foreach($menu as $val) {
+      	$html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";  
+    	}
     
-    $this->data['title'] = "Developer";
-    $this->data['main'] = <<<EOD
-<h1>The Developer Controller</h1>
-<p>This is what you can do for now:</p>
-<ul>
-$html
-</ul>
+    	$this->data['title'] = "Developer";
+    	$this->data['main'] = <<<EOD
+	<h1>The Developer Controller</h1>
+	<p>This is what you can do for now:</p>
+	<ul>
+	$html
+	</ul>
 EOD;
   }
   
