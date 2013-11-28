@@ -1,7 +1,7 @@
 <?php
    
-/*Ett objekt av klassen har skapats av konstruktorn i Origin
-och som en följ av detta har filen laddats och konstruktorn anropat konstruktorn i 
+/*Ett objekt av klassen har skapats av konstruktorn i CCGuestbook
+och som en fï¿½lj av detta har filen laddats och konstruktorn anropat konstruktorn i 
 klass CObject.
 */ 
 
@@ -12,14 +12,14 @@ klass CObject.
       	}
 
 
-/*ett formulär är synligt i gästboken pga, kod i filen CCGuestbook/index.tpl.php 
-och när någon av knapparna trycks för formuläret så anropar meyoden Handler i CCGuestbook här - 
+/*ett formulï¿½r ï¿½r synligt i gï¿½stboken pga, kod i filen CCGuestbook/index.tpl.php 
+och nï¿½r nï¿½gon av knapparna trycks fï¿½r formulï¿½ret sï¿½ anropar meyoden Handler i CCGuestbook hï¿½r - 
 Add($entry) lagrar ett meddelande till databasen, DeleteAll()raderar alla meddelanden ur databasen, 
 och Init()skapar en tabell guestbook i databasen om den inte redan finnns.
 */
 
-/*metod SQL används för att på uppdrag av de andra metoderna i klassen
-ge färdig SQL-kod för uppdrag mot databasen.
+/*metod SQL anvï¿½nds fï¿½r att pï¿½ uppdrag av de andra metoderna i klassen
+ge fï¿½rdig SQL-kod fï¿½r uppdrag mot databasen.
 */
 
 	public static function SQL($key=null) {
@@ -36,10 +36,10 @@ ge färdig SQL-kod för uppdrag mot databasen.
       	}
 
 
-/*funktionen Init() anropar metoden ExecuteQuery i CMDatabase för att skapa en tabell igästboken och till denna
-översänds kod ifrån metod SQL i denna fil.
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+/*funktionen Init() anropar metoden ExecuteQuery i CMDatabase fï¿½r att skapa en tabell igï¿½stboken och till denna
+ï¿½versï¿½nds kod ifrï¿½n metod SQL i denna fil.
+Dï¿½refter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
+data['flash']['message'] innehï¿½ller en array i vilken de tvï¿½ medsï¿½nda argumenten varav ett ï¿½r meddelandet lagras.
 */
     
       public function Init() {
@@ -52,11 +52,11 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       }
       }
      
-/*funktionen Add() anropar metoden ExecuteQuery i CMDatabase för skriva ett nytt meddelande till gästboken 
+/*funktionen Add() anropar metoden ExecuteQuery i CMDatabase fï¿½r skriva ett nytt meddelande till gï¿½stboken 
 och till denna
-översänds kod ifrån metod SQL i denna fil.
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+ï¿½versï¿½nds kod ifrï¿½n metod SQL i denna fil.
+Dï¿½refter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
+data['flash']['message'] innehï¿½ller en array i vilken de tvï¿½ medsï¿½nda argumenten varav ett ï¿½r meddelandet lagras.
 */
     
       public function Add($entry) {
@@ -67,9 +67,9 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       }
       }
      
-/*funktionen DeleteAll() anropar metoden ExecuteQuery i CMDatabase för att radera alla medelanden i gästboken. 
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+/*funktionen DeleteAll() anropar metoden ExecuteQuery i CMDatabase fï¿½r att radera alla medelanden i gï¿½stboken. 
+Dï¿½refter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
+data['flash']['message'] innehï¿½ller en array i vilken de tvï¿½ medsï¿½nda argumenten varav ett ï¿½r meddelandet lagras.
 */
      
       public function DeleteAll() {
@@ -77,9 +77,9 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       $this->session->AddMessage('info', 'Removed all messages from the database table.');
       }
      
-/*funktionen ReadAll() anropar metoden ExecuteSelectQueryAndFetchAll i CMDatabase för att lagra alla 
-medelanden i gästboken till en retur. Denna funktionkallas alltid per automatik ifrån
-Index() i CCGuestbook och inget meddelande om detta lämnas till användaren.
+/*funktionen ReadAll() anropar metoden ExecuteSelectQueryAndFetchAll i CMDatabase fï¿½r att lagra alla 
+medelanden i gï¿½stboken till en retur. Denna funktionkallas alltid per automatik ifrï¿½n
+Index() i CCGuestbook och inget meddelande om detta lï¿½mnas till anvï¿½ndaren.
 */     
       
       public function ReadAll() {
