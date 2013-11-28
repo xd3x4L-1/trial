@@ -77,9 +77,9 @@ adresser till olika punkter av ramverket.
   	return Origin::Instance()->request->base_url . trim($url, '/');
 	}
 
-	function create_url($url=null) {
-  	return Origin::Instance()->request->CreateUrl($url);
-	}
+	function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return Origin::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+}
 
 	function theme_url($url) {
   	$Origo = Origin::Instance();

@@ -56,6 +56,7 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
   	'index'     => array('enabled' => true,'class' => 'CCIndex'),
  	'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
  	'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
+	'user'      => array('enabled' => true,'class' => 'CCUser'),
 	);
 
   
