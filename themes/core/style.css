@@ -49,3 +49,8 @@ h1{ font-size:1.4em;color:#333;}
 
 
 p{color:#333;}
+
+/**
+* Forms
+*/
+input{font:inherit;}
