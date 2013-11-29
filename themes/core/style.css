@@ -11,6 +11,11 @@ body{min-width:280mm;transform: scale(0.87,0.87);
 body{  font-family: Georgia, serif;}
 body{color: #333;}
 
+/**
+* Login menu
+*/
+#login-menu{float:right;font-size:smaller;}
+
 
 
 

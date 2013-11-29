@@ -25,28 +25,18 @@ resultatet blir $this->data['title'] och $this->data['main'].
     	$this->Menu();
        }
 
-	/**
+ /**
          * Create a method that shows the menu, same for all methods
          */
         private function Menu() {        
                 $menu = array(
-                 'index', 'index/index', 'developer', 'developer/index', 'developer/links',
-                 'developer/display-object', 'guestbook', 'user',
+                 'index', 'developer', 'developer/links',
+                 'developer/display-object', 'guestbook', 'user', 'user/login', 'user/logout',
+                 'user/profile', 'acp',
                 );
                 
-                $html = null;
-                foreach($menu as $val) {
-                 $html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";
-                }
-                
-                $this->data['title'] = "The Index Controller";
-                $this->data['main'] = <<<EOD
-<h1>The Index Controller</h1>
-<p>This is what you can do for now:</p>
-<ul>
-$html
-</ul>
-EOD;
+    $this->views->SetTitle('Index Controller');
+    $this->views->AddInclude(__DIR__ . '/index.tpl.php', array('menu'=>$menu));
   }
         
 }  

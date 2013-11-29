@@ -16,6 +16,7 @@ endast ett objekt kan skapas av klassen.
   	public $db;	
  	public $views;
   	public $session;
+	public $user;
   	public $timer = array();
 
 
@@ -56,26 +57,37 @@ använda för att hantera vyer.
 
 */
 
-  	protected function __construct() {
-  
+   /**
+         * Constructor
+         */
+        protected function __construct() {
+                // time page generation
+                $this->timer['first'] = microtime(true);
 
-    	$this->timer['first'] = microtime(true); 
-    	$Origo = &$this;
-    	require(LYDIA_SITE_PATH.'/config.php');
+                // include the site specific config.php and create a ref to $ly to be used by config.php
+                $Origo = &$this;
+    require(LYDIA_SITE_PATH.'/config.php');
 
-    	session_name($this->config['session_name']);
-    	session_start();
-		
-    	$this->session = new CSession($this->config['session_key']);
-    	$this->session->PopulateFromSession();
-					
-    	date_default_timezone_set($this->config['timezone']);
-	
-    	if(isset($this->config['database'][0]['dsn'])) { $this->db = new CMDatabase($this->config['database'][0]['dsn']);}
-	
-    	$this->views = new CViewContainer();
-		
-  	}
+                // Start a named session
+                session_name($this->config['session_name']);
+                session_start();
+                $this->session = new CSession($this->config['session_key']);
+                $this->session->PopulateFromSession();
+                
+                // Set default date/time-zone
+                date_default_timezone_set($this->config['timezone']);
+                
+                // Create a database object.
+                if(isset($this->config['database'][0]['dsn'])) {
+                  $this->db = new CMDatabase($this->config['database'][0]['dsn']);
+          }
+          
+          // Create a container for all views and theme data
+          $this->views = new CViewContainer();
+
+          // Create a object for the user
+          $this->user = new CMUser($this);
+  }
   
   
 /*I FrontControllerRoute() analyseras den länk som 

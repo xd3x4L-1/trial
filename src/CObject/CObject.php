@@ -20,27 +20,38 @@ $session är för objektet av CSession som innehåller metoder för meddelanden till
 
 	class CObject {
 
-       public $config;
-       public $data;
-	public $request;
-	public $views;
-	public $db;
-	public $session;
+   /**
+         * Members
+         */
+        protected $config;
+        protected $request;
+        protected $data;
+        protected $db;
+        protected $views;
+        protected $session;
+        protected $user;
 
 /* I konstruktorn som anropas ifrån de olika kontrolleklasserna och ifrån modellen CMDatabase 
 ges medlemsvariablerna tillåtelse att vara skrivsätt för värden som tagit fram i Origin.
 */
 
-      	protected function __construct() {
+      /**
+         * Constructor, can be instantiated by sending in the $ly reference.
+         */
+        protected function __construct($Origo=null) {
+         if(!$Origo) {
+         $Origo = Origin::Instance();
+         }
+    $this->config = &$Origo->config;
+    $this->request = &$Origo->request;
+    $this->data = &$Origo->data;
+    $this->db = &$Origo->db;
+    $this->views = &$Origo->views;
+    $this->session = &$Origo->session;
+    $this->user = &$Origo->user;
+        }
 
-      	$Origo = Origin::Instance();
-    	$this->config = &$Origo->config;
-    	$this->request = &$Origo->request;
-    	$this->data = &$Origo->data;
-	$this->db       = &$Origo->db;
-	$this->views    = &$Origo->views;
-	$this->session  = &$Origo->session;
-  }
+
   
 /* Funktionen RedirectTo($url) anropas ifrån CCGuestbook i metod handler efter varje fråga mot databasen.
 för att gästbokens huvudsida på nytt och med aktuellt innehåll skall visas på skärmen.
@@ -105,7 +116,30 @@ utskrift senare skall kunna ske under sidfoten i trial/guestbook.
   }
 
  
-  
+  /**
+         * Save a message in the session. Uses $this->session->AddMessage()
+         *
+* @param $type string the type of message, for example: notice, info, success, warning, error.
+* @param $message string the message.
+*/
+  protected function AddMessage($type, $message) {
+    $this->session->AddMessage($type, $message);
+  }
+
+
+        /**
+         * Create an url. Uses $this->request->CreateUrl()
+         *
+         * @param $urlOrController string the relative url or the controller
+         * @param $method string the method to use, $url is then the controller or empty for current
+         * @param $arguments string the extra arguments to send to the method
+         */
+        protected function CreateUrl($urlOrController=null, $method=null, $arguments=null) {
+    $this->request->CreateUrl($urlOrController, $method, $arguments);
+  }
+
+
+
   
   
   

@@ -66,8 +66,26 @@ med html-kod vilket gör att meddelandet till användaren nu sedan kan skrivas ut.
   	}
   	return $html;
 	}
-
-
+	
+	
+/**
+* Login menu. Creates a menu which reflects if user is logged in or not.
+*/
+function login_menu() {
+  $Origo = Origin::Instance();
+  if($Origo->user->IsAuthenticated()) {
+    $items = "<a href='" . create_url('user/profile') . "'>" . $Origo->user->GetAcronym() . "</a> ";
+    if($Origo->user->IsAdministrator()) {
+      $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
+    }
+    $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
+  } else {
+    $items = "<a href='" . create_url('user/login') . "'>login</a> ";
+  }
+  return "<nav>$items</nav>";
+}	
+	
+	
 /*i denna fil finns flera funktioner till hjälp för att beskriva 
 adresser till olika punkter av ramverket.
 */

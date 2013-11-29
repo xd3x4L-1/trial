@@ -57,6 +57,7 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
  	'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
  	'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 	'user'      => array('enabled' => true,'class' => 'CCUser'),
+	'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
 	);
 
   
@@ -66,5 +67,5 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
     	);
 
 	
-    	$Origo->config['base_url'] = null;
+    $Origo->config['base_url'] = null;
 	$Origo->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.rdt.sqlite';
