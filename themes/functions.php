@@ -68,14 +68,14 @@ med html-kod vilket gör att meddelandet till användaren nu sedan kan skrivas ut.
 	}
 	
 	
-/**
+	/**
 * Login menu. Creates a menu which reflects if user is logged in or not.
 */
 function login_menu() {
   $Origo = Origin::Instance();
-  if($Origo->user->IsAuthenticated()) {
-    $items = "<a href='" . create_url('user/profile') . "'>" . $Origo->user->GetAcronym() . "</a> ";
-    if($Origo->user->IsAdministrator()) {
+  if($Origo->user['isAuthenticated']) {
+    $items = "<a href='" . create_url('user/profile') . "'>" . $Origo->user['acronym'] . "</a> ";
+    if($Origo->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
     $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
@@ -83,7 +83,7 @@ function login_menu() {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
   return "<nav>$items</nav>";
-}	
+}
 	
 	
 /*i denna fil finns flera funktioner till hjälp för att beskriva 
@@ -99,10 +99,15 @@ adresser till olika punkter av ramverket.
   return Origin::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
 }
 
-	function theme_url($url) {
-  	$Origo = Origin::Instance();
-  	return "{$Origo->request->base_url}themes/{$Origo->config['theme']['name']}/{$url}";
-	}
+	/**
+* Prepend the theme_url, which is the url to the current theme directory.
+*/
+function theme_url($url) {
+  $Origo = Origin::Instance();
+  return "{$Origo->request->base_url}themes/{$Origo->config['theme']['name']}/{$url}";
+}
+
+
 
 	function current_url() {
   	return Origin::Instance()->request->current_url;
