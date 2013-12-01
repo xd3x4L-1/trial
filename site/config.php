@@ -33,6 +33,18 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
     
     	$Origo->config['url_in'] = 0;
     	$Origo->config['url_type'] = 1;
+		
+		
+		
+		
+		
+		
+	/**
+* How to hash password of new users, choose from: plain, md5salt, md5, sha1salt, sha1.
+*/
+$Origo->config['hashing_algorithm'] = 'sha1salt';
+
+
 
 	$Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
 	$Origo->config['session_key']  = 'trial';
