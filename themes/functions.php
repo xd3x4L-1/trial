@@ -68,13 +68,13 @@ med html-kod vilket gör att meddelandet till användaren nu sedan kan skrivas ut.
 	}
 	
 	
-	/**
+/**
 * Login menu. Creates a menu which reflects if user is logged in or not.
 */
 function login_menu() {
   $Origo = Origin::Instance();
   if($Origo->user['isAuthenticated']) {
-    $items = "<a href='" . create_url('user/profile') . "'>" . $Origo->user['acronym'] . "</a> ";
+    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $Origo->user['acronym'] . "</a> ";
     if($Origo->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
@@ -82,9 +82,16 @@ function login_menu() {
   } else {
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
   }
-  return "<nav>$items</nav>";
+  return "<nav id='login-menu'>$items</nav>";
 }
-	
+
+
+/**
+* Get a gravatar based on the user's email.
+*/
+function get_gravatar($size=null) {
+  return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Origin::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
+}
 	
 /*i denna fil finns flera funktioner till hjälp för att beskriva 
 adresser till olika punkter av ramverket.
