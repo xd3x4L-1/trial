@@ -16,6 +16,10 @@ body{color: #333;}
 */
 #login-menu{float:right;font-size:smaller;}
 #login-menu img.gravatar{vertical-align:middle;}
+#login-menu a{text-decoration:none;}
+#login-menu a:hover{text-decoration:underline;}
+
+
 
 
 
@@ -54,3 +58,7 @@ p{color:#333;}
 * Forms
 */
 input{font:inherit;}
+input[readonly]{color:#666;}
+label{font-size:smaller;}
+.validation-failed{border:2px solid red;}
+.validation-message{color:red;font-size:smaller;}

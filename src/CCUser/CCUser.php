@@ -29,12 +29,15 @@ class CCUser extends CObject implements IController {
                 ));
   }
 
-  /**
+/**
 * View and edit user profile.
 */
   public function Profile() {
     $form = new CFormUserProfile($this, $this->user);
-    $form->CheckIfSubmitted();
+    if($form->Check() === false) {
+      $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+      $this->RedirectToController('profile');
+    }
 
     $this->views->SetTitle('User Profile')
                 ->AddInclude(__DIR__ . '/profile.tpl.php', array(
@@ -70,15 +73,23 @@ class CCUser extends CObject implements IController {
     $this->RedirectToController('profile');
   }
   
-  /**
+  
+  
+  
+  
+ /**
 * Authenticate and login a user.
 */
   public function Login() {
     $form = new CFormUserLogin($this);
-    $form->CheckIfSubmitted();
+    if($form->Check() === false) {
+      $this->AddMessage('notice', 'You must fill in acronym and password.');
+      $this->RedirectToController('login');
+    }
     $this->views->SetTitle('Login')
                 ->AddInclude(__DIR__ . '/login.tpl.php', array('login_form'=>$form->GetHTML()));
   }
+  
   
   
   
@@ -119,8 +130,9 @@ class CCUser extends CObject implements IController {
 */
   public function Logout() {
     $this->user->Logout();
-    $this->RedirectToController();
+    $this->RedirectToController('login');
   }
+  
   
 
   /**
