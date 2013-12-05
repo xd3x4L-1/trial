@@ -45,8 +45,16 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
 $Origo->config['hashing_algorithm'] = 'sha1salt';
 
 
+/**
+* Allow or disallow creation of new user accounts.
+*/
+$Origo->config['create_new_users'] = true;
 
-	$Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+
+/**
+* Define session name
+*/
+$Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 	$Origo->config['session_key']  = 'trial';
 
 	$Origo->config['timezone'] = 'Europe/Stockholm';
