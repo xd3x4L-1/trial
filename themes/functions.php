@@ -92,6 +92,23 @@ function login_menu() {
 function get_gravatar($size=null) {
   return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Origin::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
 }
+
+
+/**
+* Escape data to make it safe to write in the browser.
+*/
+function esc($str) {
+  return htmlEnt($str);
+}
+
+
+
+
+
+
+
+
+
 	
 /*i denna fil finns flera funktioner till hjälp för att beskriva 
 adresser till olika punkter av ramverket.

@@ -9,7 +9,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
   /**
 * Properties
 */
-  public $profile = array();
+  public $profile;
 
 
   /**
@@ -20,9 +20,14 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     $profile = $this->session->GetAuthenticatedUser();
     $this->profile = is_null($profile) ? array() : $profile;
     $this['isAuthenticated'] = is_null($profile) ? false : true;
+    if(!$this['isAuthenticated']) {
+      $this['id'] = 1;
+      $this['acronym'] = 'anonomous';
+    }
   }
-  
-    /**
+
+
+  /**
 * Implementing ArrayAccess for $this->profile
 */
   public function offsetSet($offset, $value) { if (is_null($offset)) { $this->profile[] = $value; } else { $this->profile[$offset] = $value; }}
@@ -31,12 +36,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
   public function offsetGet($offset) { return isset($this->profile[$offset]) ? $this->profile[$offset] : null; }
 
 
-  
-  
-  
-
-
- /**
+  /**
 * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
 *
 * @param string $key the string that is the key of the wanted SQL-entry in the array.
@@ -64,9 +64,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
   }
 
 
-
-
- /**
+  /**
 * Init the database and create appropriate tables.
 */
   public function Init() {
@@ -77,6 +75,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
       $this->db->ExecuteQuery(self::SQL('create table user'));
       $this->db->ExecuteQuery(self::SQL('create table group'));
       $this->db->ExecuteQuery(self::SQL('create table user2group'));
+      $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonomous', 'Anonomous, not authenticated', null, 'plain', null, null));
       $password = $this->CreatePassword('root');
       $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
       $idRootUser = $this->db->LastInsertId();
@@ -96,7 +95,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     }
   }
   
-
 
   /**
 * Login by autenticate the user and password. Store user information in session if success.
@@ -145,9 +143,8 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     $this->AddMessage('success', "You have logged out.");
   }
   
-  
-  
-   /**
+
+  /**
 * Create new user.
 *
 * @param $acronym string the acronym.
@@ -166,16 +163,16 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     return true;
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-   public function CreatePassword($plain, $algorithm=null) {
+
+  /**
+* Create password.
+*
+* @param $plain string the password plain text to use as base.
+* @param $algorithm string stating what algorithm to use, plain, md5, md5salt, sha1, sha1salt.
+* defaults to the settings of site/config.php.
+* @returns array with 'salt' and 'password'.
+*/
+  public function CreatePassword($plain, $algorithm=null) {
     $password = array(
       'algorithm'=>($algorithm ? $algoritm : Origin::Instance()->config['hashing_algorithm']),
       'salt'=>null
@@ -191,16 +188,8 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     return $password;
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    /**
+
+  /**
 * Check if password matches.
 *
 * @param $plain string the password plain text to use as base.
@@ -220,18 +209,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     }
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   /**
 * Save user profile to database and update user profile in session.
@@ -245,7 +222,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
   }
   
   
-   /**
+  /**
 * Change user password.
 *
 * @param $plain string plaintext of the new password
@@ -256,5 +233,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess {
     $this->db->ExecuteQuery(self::SQL('update password'), array($password['algorithm'], $password['salt'], $password['password'], $this['id']));
     return $this->db->RowCount() === 1;
   }
+  
   
 }
