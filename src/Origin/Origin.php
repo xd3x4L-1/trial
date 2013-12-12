@@ -75,7 +75,7 @@ använda för att hantera vyer.
                 $this->session->PopulateFromSession();
                 
                 // Set default date/time-zone
-                date_default_timezone_set($this->config['timezone']);
+               date_default_timezone_set('UTC');
                 
                 // Create a database object.
                 if(isset($this->config['database'][0]['dsn'])) {

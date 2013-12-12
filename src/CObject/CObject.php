@@ -74,22 +74,26 @@ utskrift senare skall kunna ske under sidfoten i trial/guestbook.
 
 */
 
-/**
+ /**
          * Redirect to another url and store the session
+*
+         * @param $url string the relative url or the controller
+         * @param $method string the method to use, $url is then the controller or empty for current controller
+         * @param $arguments string the extra arguments to send to the method
          */
-        protected function RedirectTo($urlOrController=null, $method=null) {
+        protected function RedirectTo($urlOrController=null, $method=null, $arguments=null) {
     $Origo = Origin::Instance();
-    if(isset($Origo->config['debug']['db-num-queries']) && $Origo->config['debug']['db-num-queries'] && isset($Origo->db)) {
+    if(isset($this->config['debug']['db-num-queries']) && $this->config['debug']['db-num-queries'] && isset($this->db)) {
       $this->session->SetFlash('database_numQueries', $this->db->GetNumQueries());
     }
-    if(isset($Origo->config['debug']['db-queries']) && $Origo->config['debug']['db-queries'] && isset($Origo->db)) {
+    if(isset($this->config['debug']['db-queries']) && $this->config['debug']['db-queries'] && isset($this->db)) {
       $this->session->SetFlash('database_queries', $this->db->GetQueries());
     }
-    if(isset($Origo->config['debug']['timer']) && $Origo->config['debug']['timer']) {
-         $this->session->SetFlash('timer', $Origo->timer);
+    if(isset($this->config['debug']['timer']) && $this->config['debug']['timer']) {
+         $this->session->SetFlash('timer', $ly->timer);
     }
     $this->session->StoreInSession();
-    header('Location: ' . $this->request->CreateUrl($urlOrController, $method));
+    header('Location: ' . $this->request->CreateUrl($urlOrController, $method, $arguments));
   }
   
   

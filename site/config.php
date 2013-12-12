@@ -77,6 +77,8 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
  	'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
  	'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 	'content' => array('enabled' => true,'class' => 'CCContent'),
+	'blog' => array('enabled' => true,'class' => 'CCBlog'),
+	'page' => array('enabled' => true,'class' => 'CCPage'),
 	'user'      => array('enabled' => true,'class' => 'CCUser'),
 	'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
 	);

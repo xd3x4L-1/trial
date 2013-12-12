@@ -102,7 +102,15 @@ function esc($str) {
 }
 
 
-
+/**
+* Display diff of time between now and a datetime.
+*
+* @param $start datetime|string
+* @returns string
+*/
+function time_diff($start) {
+  return formatDateTimeDiff($start);
+}
 
 
 
