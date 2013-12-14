@@ -62,6 +62,25 @@ function htmlent($str, $flags = ENT_COMPAT) {
   return htmlentities($str, $flags, Origin::Instance()->config['character_encoding']);
 }
 
+
+
+
+/**
+* Helper, make clickable links from URLs in text.
+*/
+function makeClickable($text) {
+  return preg_replace_callback(
+    '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
+    create_function(
+      '$matches',
+      'return "<a href=\'{$matches[0]}\'>{$matches[0]}</a>";'
+    ),
+    $text
+  );
+}
+
+
+
 /**
 * Helper, interval formatting of times. Needs PHP5.3.
 *
