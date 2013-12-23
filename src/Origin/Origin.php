@@ -191,7 +191,7 @@ och styr vad som skall visas då denna direkt innehåller html-kod.
     	$themePath         = LYDIA_INSTALL_PATH . "/themes/{$themeName}";
     	$themeUrl          = $this->request->base_url . "themes/{$themeName}";
 
-    	$this->data['stylesheet'] = "{$themeUrl}/style.css";
+    	   $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
  	$this->data['favicon'] = "{$themeUrl}/img/favicon.ico";
 
     	$Origo = &$this;

@@ -75,6 +75,7 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 	$Origo->config['controllers'] = array(
   	'index'     => array('enabled' => true,'class' => 'CCIndex'),
  	'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+	'theme'     => array('enabled' => true,'class' => 'CCTheme'),
  	'guestbook' => array('enabled' => true,'class' => 'CCGuestbook'),
 	'content' => array('enabled' => true,'class' => 'CCContent'),
 	'blog' => array('enabled' => true,'class' => 'CCBlog'),
@@ -86,7 +87,8 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
   
 
     	$Origo->config['theme'] = array(
-      	'name'    => 'core',
+      	'name'    => 'grid',
+		'stylesheet' => 'style.php',
     	);
 
 	
