@@ -89,6 +89,7 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
     	$Origo->config['theme'] = array(
       	'name'    => 'grid',
 		'stylesheet' => 'style.php',
+		'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
     	);
 
 	

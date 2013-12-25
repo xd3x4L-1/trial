@@ -204,7 +204,8 @@ och styr vad som skall visas då denna direkt innehåller html-kod.
 
     	extract($this->data);
     	extract($this->views->GetData());
-    	include("{$themePath}/default.tp1.php");
+    	$templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+    include("{$themePath}/{$templateFile}");
   	}
  
   
