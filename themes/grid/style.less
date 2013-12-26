@@ -50,9 +50,15 @@ label{font-size:smaller;}
 * HTML & Body
 */
 html{background-color:@bgcolor1;}
+
+
 body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
-  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
-}
+  &:hover{background:#fff url(grid_12_60_20.png) repeat right top;}
+}  
+
+
+
+
 
 
 /** --------------------------------------------------------------
@@ -93,7 +99,7 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 */
 #outer-wrap-flash{}
 #inner-wrap-flash{.wrap();height:@magic-number*3;margin-bottom:@magic-number;}
-#flash{.column(12);background-color:@bgtest;height:100%;}
+#flash{.column(12);height:100%;}
 
 
 /** --------------------------------------------------------------
@@ -101,12 +107,12 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 *
 */
 #outer-wrap-featured{}
-#inner-wrap-featured{.wrap;height:@magic-number*5;margin-bottom:@magic-number;}
+#inner-wrap-featured{.wrap();height:@magic-number*5;margin-bottom:@magic-number;}
 #featured{}
 
 #featured-first,
 #featured-middle,
-#featured-last{.column(4);background-color:@bgtest;height:100%;}
+#featured-last{.column(4);height:100%;}
 
 
 /** --------------------------------------------------------------
@@ -114,11 +120,11 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 *
 */
 #outer-wrap-main{}
-#inner-wrap-main{.wrap;margin-bottom:@magic-number;}
+#inner-wrap-main{.wrap();margin-bottom:@magic-number;}
 #main{}
 
-#primary{.column(8);background-color:@bgtest;}
-#sidebar{.column(4);background-color:@bgtest;}
+#primary{.column(8);}
+#sidebar{.column(4);}
 
 
 /** --------------------------------------------------------------
@@ -131,14 +137,14 @@ body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
 
 #triptych-first,
 #triptych-middle,
-#triptych-last{.column(4);background-color:@bgtest;height:100%;}
+#triptych-last{.column(4);height:100%;}
 
 
 /** --------------------------------------------------------------
 * The footer column area.
 *
 */
-#outer-wrap-footer-column{background-color:@bgtest;border-top:1px solid #bbb;}
+//#outer-wrap-footer-column{border-top:1px solid #bbb;}
 #inner-wrap-footer-column{.wrap();height:@magic-number*5;padding-bottom:@magic-number;}
 #footer{height:inherit;}
 
@@ -153,9 +159,9 @@ background-color:lighten(@bgtest,10%);}
 * The footer area.
 *
 */
-#outer-wrap-footer{background-color:@bgtest;}
-#inner-wrap-footer{.wrap();}
-#footer{.column(12);font-size:0.80em;color:#666;padding-bottom:@magic-number;}
+#outer-wrap-footer{background-color:@bgcolor1;border-top:1px solid #bbb;}
+#inner-wrap-footer{.wrap();padding-top:@magic-number;padding-bottom:@magic-number;}
+#footer{.column(12);font-size:0.80em;color:#666;}
 
 
 /** --------------------------------------------------------------

@@ -86,11 +86,21 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 
   
 
-    	$Origo->config['theme'] = array(
-      	'name'    => 'grid',
-		'stylesheet' => 'style.php',
-		'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
-    	);
+    	
+/**
+* Settings for the theme.
+*/
+$Origo->config['theme'] = array(
+  'name' => 'grid', // The name of the theme in the theme directory
+  'stylesheet' => 'style.php', // Main stylesheet to include in template files
+  'template_file' => 'index.tpl.php', // Default template file, else use default.tpl.php
+  // A list of valid theme regions
+  'regions' => array('flash','featured-first','featured-middle','featured-last',
+    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
+    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+    'footer',
+  ),
+);
 
 	
     $Origo->config['base_url'] = null;

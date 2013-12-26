@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:5535:"body {
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:5248:"body {
   width: 100%;
   *zoom: 1;
 }
@@ -56,7 +56,7 @@ body {
   font: 1em Verdana, Arial, Helvetica, sans-serif;
 }
 body:hover {
-  background: #fff url(grid_12_60_20.png) repeat-y center top;
+  background: #fff url(grid_12_60_20.png) repeat right top;
 }
 #outer-wrap-header {
   height: 88px;
@@ -142,7 +142,6 @@ body:hover {
   float: left;
   width: 940px;
   margin: 0 10px;
-  background-color: rgba(230,230,230,0.5);
   height: 100%;
 }
 #inner-wrap-featured {
@@ -167,7 +166,6 @@ body:hover {
   float: left;
   width: 300px;
   margin: 0 10px;
-  background-color: rgba(230,230,230,0.5);
   height: 100%;
 }
 #inner-wrap-main {
@@ -189,14 +187,12 @@ body:hover {
   float: left;
   width: 620px;
   margin: 0 10px;
-  background-color: rgba(230,230,230,0.5);
 }
 #sidebar {
   display: inline;
   float: left;
   width: 300px;
   margin: 0 10px;
-  background-color: rgba(230,230,230,0.5);
 }
 #inner-wrap-triptych {
   width: 960px;
@@ -223,12 +219,7 @@ body:hover {
   float: left;
   width: 300px;
   margin: 0 10px;
-  background-color: rgba(230,230,230,0.5);
   height: 100%;
-}
-#outer-wrap-footer-column {
-  background-color: rgba(230,230,230,0.5);
-  border-top: 1px solid #bbb;
 }
 #inner-wrap-footer-column {
   width: 960px;
@@ -262,12 +253,15 @@ body:hover {
   background-color: rgba(255,255,255,0.5);
 }
 #outer-wrap-footer {
-  background-color: rgba(230,230,230,0.5);
+  background-color: #eee;
+  border-top: 1px solid #bbb;
 }
 #inner-wrap-footer {
   width: 960px;
   margin: 0 auto;
   *zoom: 1;
+  padding-top: 22px;
+  padding-bottom: 22px;
 }
 #inner-wrap-footer:before,
 #inner-wrap-footer:after {
@@ -284,7 +278,6 @@ body:hover {
   margin: 0 10px;
   font-size: 0.80em;
   color: #666;
-  padding-bottom: 22px;
 }
 a {
   color: inherit;
@@ -349,4 +342,4 @@ a:focus {
 .silent {
   color: #999;
 }
-";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/style.less";i:1387978252;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1387980322;}
+";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/style.less";i:1388090318;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1388090326;}
