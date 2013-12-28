@@ -11,7 +11,7 @@ class CCTheme extends CObject implements IController {
 * Constructor
 */
   public function __construct() { parent::__construct();
-    $this->views->AddStyle('body:hover{background:#fff url('.$this->request->base_url.'themes/grid/grid_12_60_20.png) repeat right top;}');
+    $this->views->AddStyle('body:hover{background:#fff url('.$this->request->base_url.'themes/grid/grid_12_60_20.png) repeat-y center top;}');
   }
 
 
@@ -63,4 +63,20 @@ class CCTheme extends CObject implements IController {
                   ->AddStyle('#'.$val.'{background-color:hsla(0,0%,90%,0.5);}');
     }
   }
+  
+  /**
+* Display text as h1h6 and paragraphs with some inline formatting.
+*/
+  public function H1H6() {
+    $this->views->SetTitle('Theme testing headers and paragraphs')
+                ->AddInclude(__DIR__ . '/h1h6.tpl.php', array(), 'primary');
+  }
+  
+  
+  
+  
+  
+  
+  
+  
   }
