@@ -192,6 +192,8 @@ och styr vad som skall visas då denna direkt innehåller html-kod.
     	$themeUrl          = $this->request->base_url . "themes/{$themeName}";
 
     	   $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
+		   
+		   
  	$this->data['favicon'] = "{$themeUrl}/img/favicon.ico";
 
     	$Origo = &$this;
@@ -204,6 +206,12 @@ och styr vad som skall visas då denna direkt innehåller html-kod.
 
     	extract($this->data);
     	extract($this->views->GetData());
+		 if(isset($this->config['theme']['data'])) {
+      extract($this->config['theme']['data']);
+    }
+		
+		
+		
     	$templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
     include("{$themePath}/{$templateFile}");
   	}

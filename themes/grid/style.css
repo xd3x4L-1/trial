@@ -87,7 +87,7 @@ video {
   vertical-align: baseline;
 }
 body {
-  line-height: 1;
+  line-height: 1em;
 }
 ol,
 ul {
@@ -146,12 +146,11 @@ body:after {
   clear: both;
 }
 body {
-  color: #222;
-  font: 100.01%/1.375 Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 100%/1.375 Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 h1 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 2.375em;
@@ -161,7 +160,7 @@ h1 {
 }
 h2 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.875em;
@@ -169,7 +168,7 @@ h2 {
 }
 h3 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.375em;
@@ -177,7 +176,7 @@ h3 {
 }
 h4 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.25em;
@@ -185,7 +184,7 @@ h4 {
 }
 h5 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 1em;
@@ -193,7 +192,7 @@ h5 {
 }
 h6 {
   font-weight: normal;
-  color: #111;
+  color: #191970;
   margin-bottom: 22px;
   font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
   font-size: 1em;
@@ -212,35 +211,13 @@ p {
   margin-bottom: 1.375em;
 }
 a {
-  color: #600;
+  color: #20B2AA;
   text-decoration: underline;
 }
 a:focus,
 a:hover {
-  color: #990000;
+  color: #2cd9d0;
   text-decoration: none;
-}
-blockquote {
-  margin-left: 1em;
-  margin-bottom: 1.375em;
-}
-strong,
-dfn {
-  font-weight: bold;
-}
-em,
-dfn {
-  font-style: italic;
-}
-pre {
-  margin-bottom: 1.375em;
-  white-space: pre;
-}
-pre,
-code,
-tt,
-.code {
-  font: 1em/1.375 "Courier New", Courier, monospace;
 }
 li ul,
 li ol {
@@ -323,13 +300,17 @@ label {
   height: 15em;
 }
 html {
-  background-color: #eee;
+  background-color: #872657;
 }
 body {
-  margin: 0;
-  padding: 0;
-  color: #333;
+  width: 90%;
+  margin-left: 40mm;
+  margin-top: 1em;
+  padding: 4em;
+  padding-top: 110px;
+  color: #191970;
   background-color: #fff;
+  min-height: 300mm;
 }
 body:hover {
   background: #fff url(grid_12_60_20.png) repeat-y center top;
@@ -359,17 +340,65 @@ body:hover {
   margin: 0 10px;
 }
 #login-menu {
-  float: right;
-  font-size: smaller;
+  float: left;
+  font-size: 1em;
+  margin-top: 1em;
 }
 #login-menu img.gravatar {
   vertical-align: middle;
 }
 #login-menu a {
   text-decoration: none;
+  color: #4F666A;
 }
 #login-menu a:hover {
   text-decoration: underline;
+}
+blockquote {
+  margin-left: 1em;
+  margin-bottom: 1.375em;
+}
+strong,
+dfn {
+  font-weight: bold;
+}
+em,
+dfn {
+  font-style: italic;
+}
+pre {
+  margin-bottom: 1.375em;
+  white-space: pre;
+}
+pre,
+code,
+tt,
+.code {
+  font: 1em/1.375 "Courier New", Courier, monospace;
+}
+li ul,
+li ol {
+  margin: 0;
+}
+ul,
+ol {
+  margin: 0.6875em 1.5em 1.375em 0;
+  padding-left: 1.5em;
+}
+ul {
+  list-style-type: disc;
+}
+ol {
+  list-style-type: decimal;
+}
+dl {
+  margin: 0 0 1.375em 0;
+}
+dl dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: 1.5em;
 }
 #banner {
   display: table;
@@ -528,8 +557,13 @@ body:hover {
   height: 100%;
   background-color: rgba(255,255,255,0.5);
 }
+/
+
+
+
+
 #outer-wrap-footer {
-  background-color: #eee;
+  background-color: #872657;
   border-top: 1px solid #bbb;
 }
 #inner-wrap-footer {
@@ -552,18 +586,7 @@ body:hover {
   float: left;
   width: 940px;
   margin: 0 10px;
-  color: #666;
-}
-a {
-  color: inherit;
-}
-a:hover {
-  text-decoration: none;
-  color: #5C0A0A;
-}
-a:focus {
-  text-decoration: none;
-  color: #5C0A0A;
+  color: #4F666A;
 }
 .error,
 .alert,

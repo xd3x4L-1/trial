@@ -12,7 +12,7 @@ small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,
 table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,
 figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,
 time,mark,audio,video{margin:0;padding:0;border:0;font-size:100.01%;font:inherit;vertical-align:baseline;}
-body{line-height:1em;}
+body{line-height:1;}
 
 ol,ul{list-style: none;}
 blockquote,q{quotes:none;}
@@ -29,6 +29,8 @@ audio,canvas,video{display:inline-block;*display:inline;*zoom:1;}
 audio:not([controls]){display:none;}
 [hidden]{display:none;}
 
+
+
 /** --------------------------------------------------------------
 * semantic.gs
 */
@@ -38,15 +40,13 @@ audio:not([controls]){display:none;}
 /** --------------------------------------------------------------
 * Settings
 */
-@bgcolor1: #872657;
+@bgcolor1: #eee;
 @bgcolor2: #fff;
 @bgtest: hsla(0,0%,90%,0.5);
 @color: #333;
-@bgcolor4: #4F666A;
 
 /* Wrap elements to site width in grid layout*/
 .wrap() {width:@total-width;margin:0 auto;.clearfix();}
-
 
 
 /** --------------------------------------------------------------
@@ -73,10 +73,9 @@ audio:not([controls]){display:none;}
 @font-family-monospace = "Courier New", Courier, monospace;
 @font-family-helvetica = Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 @magic-number: 22px; /* 16px - 100%/1.375 */
-@link-color: #20B2AA;
-@color:#191970;
+@link-color: #600;
 
-body{font:100%/1.375 @font-family-helvetica;}
+body{color:#222;font:100.01%/1.375 @font-family-helvetica;}
 
 /* Headings */
 /* 2.75em * 16px = 44 => line-height: 1*/
@@ -88,7 +87,7 @@ body{font:100%/1.375 @font-family-helvetica;}
 /* 1.375em * 16px = 22 => line-height: 22 = 1*/
 /* 1.25em * 16px = 20 => line-height: 22/20 = 1.1*/
 
-.headings-general() {font-weight:normal;color:#191970;margin-bottom:@magic-number;font-family:@font-family-cambria}
+.headings-general() {font-weight:normal;color:#111;margin-bottom:@magic-number;font-family:@font-family-cambria}
 h1{.headings-general();font-size:2.375em;line-height:1.1579;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
 h2{.headings-general();font-size:1.875em;line-height:1.4667;}
 h3{.headings-general();font-size:1.375em;line-height:1;}
@@ -97,13 +96,17 @@ h5{.headings-general();font-size:1em;font-weight:bold;}
 h6{.headings-general();font-size:1em;font-weight:bold;margin-bottom:0;}
 h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
 
+
 /* Text elements */
 p{margin-bottom:1.375em;}
 a{color:@link-color;text-decoration:underline;
   &:focus,&:hover{color:lighten(@link-color, 10%);text-decoration:none;}
 }
-
-
+blockquote{margin-left:1em;margin-bottom:1.375em;}
+strong,dfn{font-weight:bold;}
+em,dfn{font-style:italic;}
+pre{margin-bottom:1.375em;white-space:pre;}
+pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
 
 /* Lists */
 li ul,li ol{margin:0;}
@@ -113,7 +116,6 @@ ol{list-style-type:decimal;}
 dl{margin:0 0 1.375em 0;}
 dl dt{font-weight:bold;}
 dd{margin-left:1.5em;}
-
 
 /* Tables. Because of the need for padding on TH and TD, the vertical rhythm
 on table cells has to be 33px, instead of the standard 22px or 44px
@@ -128,8 +130,6 @@ tbody tr{border-bottom:1px solid #eee;
   &:hover{color:#000;}
 }
 tfoot{font-style:italic;}
-
-
 
 
 /** --------------------------------------------------------------
@@ -148,26 +148,12 @@ label{font-size:smaller;}
 }
 
 
-
-
 /** --------------------------------------------------------------
 * HTML & Body
 */
-html{background-color:@bgcolor1;
-
-
-
-}
-body{width:90%;margin-left:40mm;margin-top:1em; padding:4em;padding-top:110px;color:@color;background-color:@bgcolor2;min-height:300mm;
-
-
-
-
-
-&:hover{background:#fff url(grid_12_60_20.png)  repeat-y center top ;}
-
-
-
+html{background-color:@bgcolor1;}
+body{margin:o;padding:0;color:@color;background-color:@bgcolor2;
+&:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
 }
 
 
@@ -184,26 +170,11 @@ body{width:90%;margin-left:40mm;margin-top:1em; padding:4em;padding-top:110px;co
 /** --------------------------------------------------------------
 * Login menu
 */
-#login-menu{float:left;font-size:1em;margin-top:1em;
+#login-menu{float:right;font-size:smaller;
   img.gravatar{vertical-align:middle;}
-  a{text-decoration:none; color:@bgcolor4;}
+  a{text-decoration:none;}
   a:hover{text-decoration:underline;}
 }
-blockquote{margin-left:1em;margin-bottom:1.375em;}
-strong,dfn{font-weight:bold;}
-em,dfn{font-style:italic;}
-pre{margin-bottom:1.375em;white-space:pre;}
-pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
-
-/* Lists */
-li ul,li ol{margin:0;}
-ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
-ul{list-style-type:disc;}
-ol{list-style-type:decimal;}
-dl{margin:0 0 1.375em 0;}
-dl dt{font-weight:bold;}
-dd{margin-left:1.5em;}
-
 
 
 /** --------------------------------------------------------------
@@ -216,9 +187,6 @@ dd{margin-left:1.5em;}
   }
   #site-slogan{.tablecell();font-size:1.5em;padding-left:10px;}
 }
-
-
-
 
 
 /** --------------------------------------------------------------
@@ -283,22 +251,27 @@ dd{margin-left:1.5em;}
 background-color:lighten(@bgtest,10%);}
 
 
-
-
-
-
-
-
-
-
-/
 /** --------------------------------------------------------------
 * The footer area.
 *
 */
 #outer-wrap-footer{background-color:@bgcolor1;border-top:1px solid #bbb;}
 #inner-wrap-footer{.wrap();padding-top:@magic-number;padding-bottom:@magic-number;}
-#footer{.column(12);color:@bgcolor4;}
+#footer{.column(12);color:#666;}
+
+
+/** --------------------------------------------------------------
+* Links
+*/
+.hover(){text-decoration:none;color:#5C0A0A;}
+a{color:inherit;
+  &:link{}
+  &:visited{}
+  &:hover{.hover()}
+  &:focus{.hover()}
+  &:active{}
+}
+
 
 /** --------------------------------------------------------------
 * User feedback message wrappers.
@@ -314,9 +287,6 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 .notice a, .warning a { color: #514721; }
 .success a { color: #264409; }
 .info a { color: #205791; }
-
-
-
 
 
 /** --------------------------------------------------------------

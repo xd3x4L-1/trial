@@ -100,8 +100,47 @@ $Origo->config['theme'] = array(
     'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
     'footer',
   ),
+  
+  
+  // Add static entries for use in the template file.
+  'data' => array(
+ 'header'=> 'Trial',
+
+'slogan' => 'A PHP-based MVC-inspired CMF',
+'logo' => 'img/drawing.png',
+'logo_width' => 40,
+'logo_height' => 30,
+
+
+
+'footer' => 
+'<p>Footer: &copy; Trial enligt tutorial</p>',
+  ),
+  
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 );
 
 	
     $Origo->config['base_url'] = null;
 	$Origo->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.rdt.sqlite';
+	
+	
+	
