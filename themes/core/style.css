@@ -1,3 +1,10 @@
+/**
+* Description: Core theme for Lydia
+*/
+
+/**
+* Structure
+*/
 html {background:#FFFFFF;}
 html{overflow-y:scroll;}
 
@@ -20,7 +27,9 @@ body{color: #333;}
 #login-menu a:hover{text-decoration:underline;}
 
 
-
+/**
+* Banner
+*/
 
 
 banner {display:table;margin-bottom:10px;}
@@ -41,13 +50,18 @@ banner {display:table;margin-bottom:10px;}
 
 header,footer,nav,article,section,aside,figure,figcaption{display:block;}
   
-
+/**
+* Links
+*/
 a{color:#77B5FE;  font-size:1em; outline:0;  }
 a:link  { }
 a:visited  { }
 a:hover  { text-decoration:none; color:#333; }
 a:active  { }
 
+/**
+* Headings
+*/
 h1{ font-size:1.4em;color:#333;}
 #main { color:#333;font-size:1em;}
 

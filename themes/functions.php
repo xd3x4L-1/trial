@@ -1,5 +1,13 @@
 <?php
+/**
+* Helpers for theming, available for all themes in their template files and functions.php.
+* This file is included right before the themes own functions.php
+*/
+ 
 
+/**
+* Get list of tools.
+*/
 
 
 
@@ -34,59 +42,19 @@ EOD;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*funktionen get_debug som i html-dokumentet default.tp1.php anropas efter $footer ger
-med hjälp av metoden GetFlash är till för att förbereda en utskrift om antalet frågor till databasen, frågorna i SQL
-och tidsåtgången för uppdraget.
+/**
+* Print debuginformation from the framework.
 */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	function get_debug() {
- 
+ // Only if debug is wanted.
   	$Origo = Origin::Instance();
   	if(empty($Origo->config['debug'])) {
     	return;
   	}
   
-
+// Get the debug output
   	$html = null;
   	if(isset($Origo->config['debug']['db-num-queries']) && $Origo->config['debug']['db-num-queries'] && isset($Origo->db)) {
     	$flash = $Origo->session->GetFlash('database_numQueries');
@@ -119,13 +87,10 @@ och tidsåtgången för uppdraget.
   	return $html;
 	}
 
-
-/*?get_messages_from_session anropas från html-dokumentet default.tp1.php och 
-i denna funktion definieras variabel $message att innehålla det medelande till användaren 
-om vad som utförts mot databasen som lagrats av funktion AddMessage($type, $message).
-funktionen get_messages_from_session i sig returnerar en variabel $html
-med html-kod vilket gör att meddelandet till användaren nu sedan kan skrivas ut.
+/**
+* Get messages stored in flash-session.
 */
+
 
 	function get_messages_from_session() {
   	$messages = Origin::Instance()->session->GetMessages();
@@ -144,6 +109,7 @@ med html-kod vilket gör att meddelandet till användaren nu sedan kan skrivas ut.
 /**
 * Login menu. Creates a menu which reflects if user is logged in or not.
 */
+
 function login_menu() {
   $Origo = Origin::Instance();
   if($Origo->user['isAuthenticated']) {
@@ -169,6 +135,9 @@ function get_gravatar($size=null) {
 
 /**
 * Escape data to make it safe to write in the browser.
+*
+* @param $str string to escape.
+* @returns string the escaped string.
 */
 function esc($str) {
   return htmlEnt($str);
@@ -201,26 +170,23 @@ function filter_data($data, $filter) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-	
-/*i denna fil finns flera funktioner till hjälp för att beskriva 
-adresser till olika punkter av ramverket.
+/**
+* Prepend the base_url.
 */
-
 
 	function base_url($url=null) {
   	return Origin::Instance()->request->base_url . trim($url, '/');
 	}
+	
+	
+	
+	/**
+* Create a url to an internal resource.
+*
+* @param string the whole url or the controller. Leave empty for current controller.
+* @param string the method when specifying controller as first argument, else leave empty.
+* @param string the extra arguments to the method, leave empty if not using method.
+*/
 
 	function create_url($urlOrController=null, $method=null, $arguments=null) {
   return Origin::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
@@ -234,18 +200,14 @@ function theme_url($url) {
   return "{$Origo->request->base_url}themes/{$Origo->config['theme']['name']}/{$url}";
 }
 
-
+/**
+* Return the current url.
+*/
 
 	function current_url() {
   	return Origin::Instance()->request->current_url;
 	}
 
-/*render_views() anropas från html-dokumentet default.tp1.php och ger det
-innehåll som kommer ifrån functionen Render i CVIewContainer via extract och include.
-Det innehåll som ges är filen src/CCGuestbook/index.tp1.php och en
-array med de meddelanden som tidigare lagrats i databasen och gjorts tillgänglig via 
-AddInclude($file, $variables=array() i CviewContainer.
-*/
 
 	
 /**

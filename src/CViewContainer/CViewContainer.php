@@ -1,31 +1,50 @@
 <?php
 
+/**
+* A container to hold a bunch of views.
+*
+* @package LydiaCore
+*/
+
 	class CViewContainer {
 
         
+        /**
+         * Members
+         */
+		 
        private $data = array();
        private $views = array();
         
+		/**
+         * Constructor
+         */
+		 
 	public function __construct() { ; }
 
-
-/*funktion GetData() anropas av ThemeEngineRender i Origin
-för att $data=array() skall bli tillgänglig för templatefilen i form av variabler.
-*/
+ /**
+         * Getters.
+         */
 
   	public function GetData() { return $this->data; }
 
+        /**
+         * Set the title of the page.
+         *
+         * @param $value string to be set as title.
+         */
 
 
-/*Index() i CCGuestbook ropar på metoden SetTitle i CViewcontainer med medskickad sträng 'Lydia Guestbook Example'
-och metoden SetTitle skickar vidare till metoden SetVariable i CViewcontaoner och på så vis
-ges att $this->data['title']='Lydia Guestbook Example';
-*/
-  
        public function SetTitle($value) {
        return $this->SetVariable('title', $value);
   	}
-
+  /**
+         * Set any variable that should be available for the theme engine.
+         *
+         * @param $value string to be set as title.
+         * @returns $this.
+         */
+		 
        public function SetVariable($key, $value) {
        $this->data[$key] = $value;
 	   return $this;
@@ -49,37 +68,16 @@ ges att $this->data['title']='Lydia Guestbook Example';
   }
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-/*metoden ReadAll i CMguestbook anropas för objektet guestbookModel och den
-anropar metoden ExecuteSelectQueryandFetchAll som finns i CMDatabase och resultatet läggs till arrayen 
-under nyckel 'entries'.
-
-Vad som sen sker är att denna array med variabler görs tillgänglig för filen __DIR__ . '/index.tpl.php'
-via metoden Addinclude.
-*/
- 
- 
-   /**
+ /**
 * Add a view as file to be included and optional variables.
 *
 * @param $file string path to the file to be included.
 * @param $vars array containing the variables that should be avilable for the included file.
 * @param $region string the theme region, uses string 'default' as default region.
 * @returns $this.
-*/
+*/	
+	
+
   public function AddInclude($file, $variables=array(), $region='default') {
     $this->views[$region][] = array('type' => 'include', 'file' => $file, 'variables' => $variables);
     return $this;
@@ -147,8 +145,8 @@ via metoden Addinclude.
     if(!isset($this->views[$region])) return;
     foreach($this->views[$region] as $view) {
       switch($view['type']) {
-        case 'include': extract($view['variables']); include($view['file']); break;
-        case 'string': extract($view['variables']); echo $view['string']; break;
+        case 'include': if(isset($view['variables'])) extract($view['variables']); include($view['file']); break;
+        case 'string': if(isset($view['variables'])) extract($view['variables']); echo $view['string']; break;
       }
     }
   }

@@ -1,15 +1,13 @@
 <?php
 
+/**
+* Bootstrapping, setting up and loading the core.
+*
+* @package LydiaCore
+*/
 
-/*Funktionen autoload har byggt så att den i första hand väljer en fil med namnet
-$aClassname placerad i katalog site/src/{$aClassName} och i andra hand en fil med namn $aclassname ur trial/src/{$aClassName}
-för index.php
-
-i funktonen byggs de lokala adresserna till frågad fil och om efterfrågad fil inte finns 
-avbryts programmets exekvering - Funktionen träder in automatiskt när nya objekt skall skapas enligt 
-new $aClassname;
-
-För att detta skall fungera behöver funktionen registreras.
+/**
+* Enable auto-load of class declarations.
 */
 
 function autoload($aClassName) {
@@ -26,12 +24,9 @@ function autoload($aClassName) {
 spl_autoload_register('autoload');
 
 
-
-
-/*Funktionen exeptionhandler är till för att hantera ofångade fel och för att den skall vara 
-tillgänglig brukas set_exception _handler
+/**
+* Set a default exception handler and enable logging in it.
 */
-
 function exceptionHandler($e) {
   echo "Trial: Uncaught exception: <p>" . $e->getMessage() . "</p><pre>" . $e->getTraceAsString(), "</pre>";
 }

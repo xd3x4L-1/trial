@@ -1,46 +1,30 @@
  <?php
 
-/*Ett objekt av klassen skapas vid anrop med PHP reflection i klass Origin metod FrontControllerRoute()
-och som en följ av detta laddas filen och konstruktorn anropar konstruktorn i 
-klass CObject.
+/**
+* Controller for development and testing purpose, helpful methods for the developer.
+*
+* @package LydiaCore
 */
-
 	class CCDeveloper extends CObject implements IController {
-
+/**
+* Constructor
+*/
   	public function __construct() {
     	parent::__construct();
   	}
   
-/* Index() anropar functionen menu som ger variablerna $menu, $main värden.
-Då variable $main byggs anropas metod CreateUrl($val) för att ta fram fullständiga länkar till varje val
-som är tillgängligt i ramverket. Dessa läggs ivariabel $html  som sedan inryms i main.
-resultatet blir $this->data['title'] och $this->data['main'].
-*/
-
+/**
+         * Implementing interface IController. All controllers must have an index action.
+         */
+		 
   	public function Index() {  
     	$this->Menu();
   	}
 
 
-/*Funktion anropar först meny och därför ges $this->data['main']till allt innehåll som ges av 
-då anropet kommer ifrån index men sedan skappas ytterliggare innehåll i denna funktion
-så att ytterliggare innehåll tillkommer längre ned på sidan när $this->data['main']
-skrivs ut av templatefilen.
-
-till att börja med är den url typ som sedan skapas styrd av config[url_type] 
-och därför blir den länk som ges $current av typen clean url.
-
-då ändras $this->request->cleanUrl = false; och länk default blir därför på typen
-index.php/developer/links
-
-I nästa länk $clean har cleanurl åter givits värdet true och ytterliggare en länk av typen clean url skapas.
-
-till sist ändras värdet för $this->request->querystringUrl till true och den
-sista länk blir då på formen index.php?q=developer/links.
-
-till sist läggs skapade länkar och en del text till $this->data['main'] enligt inledande stycke.
-
-*/
+        /**
+         * Create a list of links in the supported ways.
+         */
 
   	public function Links() {  
     
@@ -72,20 +56,11 @@ till sist läggs skapade länkar och en del text till $this->data['main'] enligt i
 EOD;
   	}
 
+/**
+         * Display all items of the CObject.
+         */
 
 
-/*Funktion anropar först meny och därför ges $this->data['main']till allt innehåll som ges av 
-då anropet kommer ifrån index men sedan skappas ytterliggare innehåll i denna funktion
-så att ytterliggare innehåll tillkommer längre ned på sidan när $this->data['main']
-skrivs ut av templatefilen.
-
-print_r($this, true) behandlar objektet som en array med objektets variabler som nycklar 
-och då CCDEveloper ärver variabler ifrån CObject som häller en instans av 
-Origin så kommer även variabler ifrån objekt som skapats i Origin till.
-
-till sist läggs skapade länkar och en del text till $this->data['main'] enligt inledande stycke.
-
-*/
 
 	public function DisplayObject() {   
      
@@ -99,12 +74,10 @@ EOD;
         }
 
 
-/* Index(), Links() och DisplayObject() anropar functionen menu som ger variablerna $menu, $main värden.
-Då variable $main byggs anropas metod CreateUrl($val) för att ta fram fullständiga länkar till varje val
-som är tillgängligt i ramverket. Dessa läggs i variabel $html som sedan inryms i main.
-resultatet blir $this->data['title'] och $this->data['main'].
-*/
-
+ /**
+         * Create a method that shows the menu, same for all methods
+         */
+		 
   	private function Menu() {  
 
     	$Origo = Origin::Instance();

@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:8930:"html,
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:9003:"html,
 body,
 div,
 span,
@@ -499,6 +499,11 @@ dd {
   width: 300px;
   margin: 0 10px;
 }
+#sidebar .box {
+  border-top: 4px double #ccc;
+  padding-top: 11px;
+  margin-bottom: 51px;
+}
 #inner-wrap-triptych {
   width: 960px;
   margin: 0 auto;
@@ -552,7 +557,6 @@ dd {
   float: left;
   width: 220px;
   margin: 0 10px;
-  font-size: 0.9em;
   margin-top: 1em;
   height: 100%;
   background-color: rgba(255,255,255,0.5);
@@ -640,4 +644,4 @@ dd {
 .silent {
   color: #999;
 }
-";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/style.less";i:1388613206;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1388613212;}
+";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/style.less";i:1389468201;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1389469076;}

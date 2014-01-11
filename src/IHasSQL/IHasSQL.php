@@ -1,11 +1,10 @@
 <?php
 
-/*gränsnittt vilket implementeras av databasmodell CMGuestbook 
-och detta gränssnitt kräver att denna modell skall inneha en metod SQL som utför
-frågor med SQL mot ramverkets databas.
+/**
+* Interface for class that interacts with the database to encapsulates all SQL requests.
+*
+* @package LydiaCore
 */
-
-
 interface IHasSQL {
   public static function SQL($key=null);
 }

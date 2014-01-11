@@ -1,42 +1,45 @@
 <?php
-   
+   /**
+* Database wrapper, provides a database API for the framework but hides details of implementation.
+*
+* @package LydiaCore
+*/
 
 
     class CMDatabase {
 
-     
+     /**
+         * Members
+         */
       private $db = null;
       private $stmt = null;
       private static $numQueries = 0;
       private static $queries = array();
 
-/*Aktivering av konstruktor sker i origins konstruktor där ett abjekt av klaseen skapas.
-När detta objekt skapas så skapas en koppling till
-en den databas som ges av config['database'][0]['dsn'] med hjälp av PDO.
-
+ /**
+* Constructor
 */
-
       public function __construct($dsn, $username = null, $password = null, $driver_options = null) {
         $this->db = new PDO($dsn, $username, $password, $driver_options);
         $this->db->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       }
      
-/* function SetAttribute anropas ifrån konstruktorn.
-*/   
-     
+  /**
+* Set an attribute on the database
+*/
       public function SetAttribute($attribute, $value) {
         return $this->db->setAttribute($attribute, $value);
       }
-
+ /**
+* Getters
+*/
       public function GetNumQueries() { return self::$numQueries; }
       public function GetQueries() { return self::$queries; }
 
 
-/*funktionen ReadAll() i CMGuestbook anropar metoden ExecuteSelectQueryAndFetchAll i för att lagra alla 
-medelanden i gästboken till en retur. Denna funktionkallas alltid per automatik ifrån
-Index() i CCGuestbook och inget meddelande om detta lämnas till användaren.
-*/ 
-   
+/**
+         * Execute a select-query with arguments and return the resultset.
+         */
       public function ExecuteSelectQueryAndFetchAll($query, $params=array()){
         $this->stmt = $this->db->prepare($query);
         self::$queries[] = $query;
@@ -45,15 +48,8 @@ Index() i CCGuestbook och inget meddelande om detta lämnas till användaren.
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
       }
 
-/*funktionen DeleteAll() i CMGuestbook anropar metoden ExecuteQuery för att radera alla medelanden i gästboken. 
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
-
-funktionen Add() i CMGuestbook anropar metoden ExecuteQuery i CMDatabase för skriva ett nytt meddelande till gästboken 
-och till funktionen
-översänds kod ifrån metod SQL.
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+ /**
+* Execute a SQL-query and ignore the resultset.
 */
     
       public function ExecuteQuery($query, $params = array()) {
@@ -64,14 +60,17 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       }
 
 
-/*funktionen anropas ifrån CMGuestbook metod function Add($entry) för att kontrollera 
-det är en rad i databastabellen som påverkats av uppdraget att lagra ettt meddelande till databasen.
+ /**
+* Return rows affected of last INSERT, UPDATE, DELETE
 */
 
       public function RowCount() {
         return is_null($this->stmt) ? $this->stmt : $this->stmt->rowCount();
       }
 
+  /**
+* Return last insert id.
+*/
  	public function LastInsertId() {
         return $this->db->lastInsertid();
       }

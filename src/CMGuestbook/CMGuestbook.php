@@ -1,25 +1,25 @@
 <?php
    
-/*Ett objekt av klassen har skapats av konstruktorn i Origin
-och som en följ av detta har filen laddats och konstruktorn anropat konstruktorn i 
-klass CObject.
-*/ 
+/**
+* A model for a guestbok, to show off some basic controller & model-stuff.
+*
+* @package LydiaCore
+*/
 
 	class CMGuestbook extends CObject implements IHasSQL {
-
+  /**
+* Constructor
+*/
       	public function __construct() {
        parent::__construct();
       	}
 
 
-/*ett formulär är synligt i gästboken pga, kod i filen CCGuestbook/index.tpl.php 
-och när någon av knapparna trycks för formuläret så anropar meyoden Handler i CCGuestbook här - 
-Add($entry) lagrar ett meddelande till databasen, DeleteAll()raderar alla meddelanden ur databasen, 
-och Init()skapar en tabell guestbook i databasen om den inte redan finnns.
-*/
 
-/*metod SQL används för att på uppdrag av de andra metoderna i klassen
-ge färdig SQL-kod för uppdrag mot databasen.
+  /**
+* Implementing interface IHasSQL. Encapsulate all SQL used by this class.
+*
+* @param string $key the string that is the key of the wanted SQL-entry in the array.
 */
 
 	public static function SQL($key=null) {
@@ -36,12 +36,10 @@ ge färdig SQL-kod för uppdrag mot databasen.
       	}
 
 
-/*funktionen Init() anropar metoden ExecuteQuery i CMDatabase för att skapa en tabell igästboken och till denna
-översänds kod ifrån metod SQL i denna fil.
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+  /**
+* Init the guestbook and create appropriate tables.
 */
-    
+
       public function Init() {
       try {
       $this->db->ExecuteQuery(self::SQL('create table guestbook'));
@@ -52,13 +50,9 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       }
       }
      
-/*funktionen Add() anropar metoden ExecuteQuery i CMDatabase för skriva ett nytt meddelande till gästboken 
-och till denna
-översänds kod ifrån metod SQL i denna fil.
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+/**
+* Add a new entry to the guestbook and save to database.
 */
-    
       public function Add($entry) {
       $this->db->ExecuteQuery(self::SQL('insert into guestbook'), array($entry));
       $this->session->AddMessage('success', 'Successfully inserted new message.');
@@ -67,21 +61,17 @@ data['flash']['message'] innehåller en array i vilken de två medsända argumenten
       }
       }
      
-/*funktionen DeleteAll() anropar metoden ExecuteQuery i CMDatabase för att radera alla medelanden i gästboken. 
-Därefter lagras ett meddelande till data['flash']['message'] via metoden AddMessage i CSession.
-data['flash']['message'] innehåller en array i vilken de två medsända argumenten varav ett är meddelandet lagras.
+/**
+* Delete all entries from the guestbook and database.
 */
-     
       public function DeleteAll() {
       $this->db->ExecuteQuery(self::SQL('delete from guestbook'));
       $this->session->AddMessage('info', 'Removed all messages from the database table.');
       }
      
-/*funktionen ReadAll() anropar metoden ExecuteSelectQueryAndFetchAll i CMDatabase för att lagra alla 
-medelanden i gästboken till en retur. Denna funktionkallas alltid per automatik ifrån
-Index() i CCGuestbook och inget meddelande om detta lämnas till användaren.
-*/     
-      
+/**
+* Read all entries from the guestbook & database.
+*/
       public function ReadAll() {
       try {
       return $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select * from guestbook'));

@@ -1,27 +1,38 @@
 <?php
 
-/*Array config ger initiella värden till Trial.
-
-//config['url_type'] talar om på vilken form utgående länkar skall byggas.
-
-//config['session_name'] vid installation på studentservern på BTH har $_SERVER["SERVER_NAME"]värdet www.student.bth.se.
-preg_replace ersätter tecknen /[:\.\/-_]/ till i detta fall ingenting.
-
-//config['controllers'] Innehåller en lista över filer som används för att lagra värden till
-variabler för utskrift. Val av fil, kontroller, styrs av inkommande länk.
-
-//config['theme'] namnet som ges motsvarar namnet på en underkatalog till katalog themes.
-Denna underkatalog innehåller sedan för temat relevanta filer som template, stilmall och funktioner.
+/**
+* Site configuration, this file is changed by user per site.
+*
 */
 
-	error_reporting(-1);
-	ini_set('display_errors', 1);
+/**
+* Set level of error reporting
+*/
 
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	
+/**
+* Set what to show as debug or developer information in the get_debug() theme helper.
+*/
+	
     	$Origo->config['debug']['trial'] = false;
     	$Origo->config['debug']['db-num-queries'] = true;
     	$Origo->config['debug']['db-queries'] = true;
     	$Origo->config['debug']['session'] = false;
     	$Origo->config['debug']['timer'] = true;
+		
+/**
+* Set database(s).
+*/
+		
+
+		$Origo->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.rdt.sqlite';	
+		
+		
+		
+		
+		
 
 /**
 * What type of urls should be used?
@@ -31,35 +42,57 @@ Denna underkatalog innehåller sedan för temat relevanta filer som template, stil
 * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
 */
     
-    	$Origo->config['url_in'] = 0;
-    	$Origo->config['url_type'] = 1;
+		$Origo->config['url_in'] = 0;
+		$Origo->config['url_type'] = 1;
+		
+
+/**
+* Set a base_url to use another than the default calculated
+*/
+
+		$Origo->config['base_url'] = null;
 		
 		
-		
-		
-		
-		
-	/**
+				
+/**
 * How to hash password of new users, choose from: plain, md5salt, md5, sha1salt, sha1.
 */
-$Origo->config['hashing_algorithm'] = 'sha1salt';
+
+		$Origo->config['hashing_algorithm'] = 'sha1salt';
 
 
 /**
 * Allow or disallow creation of new user accounts.
 */
-$Origo->config['create_new_users'] = true;
+		$Origo->config['create_new_users'] = true;
 
 
 /**
 * Define session name
 */
-$Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
-	$Origo->config['session_key']  = 'trial';
+		$Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
+		$Origo->config['session_key']  = 'trial';
+		
+		
+/**
+* Define default server timezone when displaying date and times to the user. All internals are still UTC.
+*/		
+		
+		
 
-	$Origo->config['timezone'] = 'Europe/Stockholm';
-	$Origo->config['character_encoding'] = 'UTF-8';
-	$Origo->config['language'] = 'en';
+		$Origo->config['timezone'] = 'Europe/Stockholm';
+/**
+* Define internal character encoding
+*/		
+		
+		
+		$Origo->config['character_encoding'] = 'UTF-8';
+		
+/**
+* Define language
+*/		
+		
+		$Origo->config['language'] = 'en';
 
 /**
  * Define the controllers, their classname and enable/disable them.
@@ -82,6 +115,7 @@ $Origo->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 	'page' => array('enabled' => true,'class' => 'CCPage'),
 	'user'      => array('enabled' => true,'class' => 'CCUser'),
 	'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
+	'module'   => array('enabled' => true,'class' => 'CCModules'),
 	);
 
   
@@ -96,51 +130,32 @@ $Origo->config['theme'] = array(
   'template_file' => 'index.tpl.php', // Default template file, else use default.tpl.php
   // A list of valid theme regions
   'regions' => array('flash','featured-first','featured-middle','featured-last',
-    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
-    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
-    'footer',
+  'primary','sidebar','triptych-first','triptych-middle','triptych-last',
+  'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+  'footer',
   ),
   
   
   // Add static entries for use in the template file.
   'data' => array(
- 'header'=> 'Trial',
+	'header'=> 'Trial',
 
-'slogan' => 'A PHP-based MVC-inspired CMF',
-'logo' => 'img/drawing.png',
-'logo_width' => 40,
-'logo_height' => 30,
+	'slogan' => 'A PHP-based MVC-inspired CMF',
+	'logo' => 'img/drawing.png',
+	'logo_width' => 40,
+	'logo_height' => 30,
 
 
 
-'footer' => 
-'<p>Footer: &copy; Trial enligt tutorial</p>',
+	'footer' => 
+	'<p>Footer: &copy; Trial enligt tutorial</p>',
   ),
   
-  
-  
 
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 );
 
 	
-    $Origo->config['base_url'] = null;
-	$Origo->config['database'][0]['dsn'] = 'sqlite:' . LYDIA_SITE_PATH . '/data/.rdt.sqlite';
+  
 	
 	
 	
