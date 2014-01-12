@@ -1,6 +1,6 @@
 <div class='box'>
 <h4>All modules</h4>
-<p>All Lydia modules.</p>
+<p>All Trial modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
 <li><?=$module['name']?></li>
@@ -10,8 +10,8 @@
 
 
 <div class='box'>
-<h4>Lydia core</h4>
-<p>Lydia core modules.</p>
+<h4>Trial core</h4>
+<p>Trial core modules.</p>
 <ul>
 <?php foreach($modules as $module): ?>
 <?php if($module['isLydiaCore']): ?>
@@ -62,6 +62,19 @@
 
 
 <div class='box'>
+<h4>Manageable module</h4>
+<p>Implements interface <code>IModule</code>.</p>
+<ul>
+<?php foreach($modules as $module): ?>
+<?php if($module['isManageable']): ?>
+<li><?=$module['name']?></li>
+<?php endif; ?>
+<?php endforeach; ?>
+</ul>
+</div>
+
+
+<div class='box'>
 <h4>Contains SQL</h4>
 <p>Implements interface <code>IHasSQL</code>.</p>
 <ul>
@@ -85,4 +98,3 @@
 <?php endforeach; ?>
 </ul>
 </div>
-
