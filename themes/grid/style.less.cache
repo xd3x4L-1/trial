@@ -300,7 +300,7 @@ label {
   height: 15em;
 }
 html {
-  background-color: #872657;
+  background-color: #004953;
 }
 body {
   width: 90%;
@@ -567,7 +567,7 @@ dd {
 
 
 #outer-wrap-footer {
-  background-color: #872657;
+  background-color: #004953;
   border-top: 1px solid #bbb;
 }
 #inner-wrap-footer {
@@ -644,4 +644,4 @@ dd {
 .silent {
   color: #999;
 }
-";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/style.less";i:1389468201;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom06/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1389469076;}
+";s:5:"files";a:2:{s:80:"/home/saxon/students/20131/boer13/www/phpmvc/kmom07/trial/themes/grid/style.less";i:1389658454;s:108:"/home/saxon/students/20131/boer13/www/phpmvc/kmom07/trial/themes/grid/semantic.gs/stylesheets/less/grid.less";i:1331870080;}s:7:"updated";i:1389658469;}

@@ -287,17 +287,25 @@ EOD;
   }
  
 
-  /**
+ /**
 * Return HTML for the elements
 */
   public function GetHTMLForElements() {
     $html = null;
+    $buttonbar = null;
     foreach($this->elements as $element) {
+      // Wrap buttons in buttonbar.
+      if(!$buttonbar && $element['type'] == 'submit') {
+        $buttonbar = true;
+        $html .= '<p>';
+      } else if($buttonbar && $element['type'] != 'submit') {
+        $buttonbar = false;
+        $html .= '</p>\n';
+      }
       $html .= $element->GetHTML();
     }
     return $html;
   }
-  
 
   /**
 * Check if a form was submitted and perform validation and call callbacks.

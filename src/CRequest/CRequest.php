@@ -74,7 +74,7 @@ class CRequest {
 *
 * @param $baseUrl string use this as a hardcoded baseurl.
 */
-  public function Init($baseUrl = null) {
+  public function Init($baseUrl = null, $routing=null) {
     $requestUri = $_SERVER['REQUEST_URI'];
     $scriptName = $_SERVER['SCRIPT_NAME'];
     
@@ -96,6 +96,17 @@ class CRequest {
     if(empty($request) && isset($_GET['q'])) {
       $request = trim($_GET['q']);
     }
+	
+	// Check if url matches an entry in routing table
+    $routed_from = null;
+    if(is_array($routing) && isset($routing[$request]) && $routing[$request]['enabled']) {
+      $routed_from = $request;
+      $request = $routing[$request]['url'];
+    }
+	
+	
+	
+	
     $splits = explode('/', $request);
     
     // Set controller, method and arguments
@@ -114,6 +125,7 @@ class CRequest {
     $this->current_url = $currentUrl;
     $this->request_uri = $requestUri;
     $this->script_name = $scriptName;
+	$this->routed_from  = $routed_from;
     $this->request = $request;
     $this->splits         = $splits;
     $this->controller         = $controller;

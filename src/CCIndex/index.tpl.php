@@ -10,9 +10,12 @@
 
 <h2>Installation</h2>
 <p>First you have to make the data-directory writable. This is the place where Trial needs
-to be able to write and create files.</p>
+to be able to write and create files.<br></br>
+some parts of the page are using less and themes/grid. Trial needs
+to be able to write in themes/grid. </p>
 <blockquote>
-<code>cd Trial; chmod 777 site/data</code>
+<code>cd Trial; chmod 777 site/data</code><br></br>
+<code>cd Trial; chmod 777 themes/grid</code>
 </blockquote>
 
 <p>Second, Trial has some modules that need to be initialised. You can do this through a

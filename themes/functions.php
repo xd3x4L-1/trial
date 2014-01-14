@@ -178,8 +178,6 @@ function filter_data($data, $filter) {
   	return Origin::Instance()->request->base_url . trim($url, '/');
 	}
 	
-	
-	
 	/**
 * Create a url to an internal resource.
 *
@@ -188,17 +186,47 @@ function filter_data($data, $filter) {
 * @param string the extra arguments to the method, leave empty if not using method.
 */
 
-	function create_url($urlOrController=null, $method=null, $arguments=null) {
-  return Origin::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return Origin::Instance()->CreateUrl($urlOrController, $method, $arguments);
 }
 
+
+	
+	
+	
+	
+	
+	
 	/**
 * Prepend the theme_url, which is the url to the current theme directory.
+*
+* @param $url string the url-part to prepend.
+* @returns string the absolute url.
 */
 function theme_url($url) {
-  $Origo = Origin::Instance();
-  return "{$Origo->request->base_url}themes/{$Origo->config['theme']['name']}/{$url}";
+  return create_url(Origin::Instance()->themeUrl . "/{$url}");
 }
+
+
+/**
+* Prepend the theme_parent_url, which is the url to the parent theme directory.
+*
+* @param $url string the url-part to prepend.
+* @returns string the absolute url.
+*/
+function theme_parent_url($url) {
+  return create_url(Origin::Instance()->themeParentUrl . "/{$url}");
+}
+
+
+
+
+
+
+
+
+
 
 /**
 * Return the current url.

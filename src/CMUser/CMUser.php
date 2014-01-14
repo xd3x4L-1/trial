@@ -39,7 +39,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   /**
 * Init the database and create appropriate tables.
 */
-  public function Init() {
+ /* public function Init() {
     try {
       $this->db->ExecuteQuery(self::SQL('drop table user2group'));
       $this->db->ExecuteQuery(self::SQL('drop table group'));
@@ -66,7 +66,7 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
       die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
     }
   }
-  
+ */ 
   
   /**
 * Implementing interface IModule. Manage install/update/deinstall and equal actions.
